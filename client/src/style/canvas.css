@@ -1,0 +1,45 @@
+/*
+* Style for the canvas component
+*/
+
+.canvasContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  background-color: blue; /* Development*/
+}
+
+.canvas {
+  height: 300px;
+  width: 300px;
+  background-color: white;
+}
+
+/*
+* Small devices (small devices, 425px and up)
+*/
+@media (min-width: 425px) {
+  .canvas {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+/*
+* Small devices (landscape phones, 576px and up)
+*/
+@media (min-width: 576px) {
+  .canvas {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+/**
+* Medium devices (tablets, 768px and up)
+*/
+@media (min-width: 768px) {
+  .canvas {
+  }
+}

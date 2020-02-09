@@ -1,0 +1,44 @@
+/*
+* Style for the navigation bar component
+*/
+.navBar {
+  background-color: #00c3cc;
+  height: 60px;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.navBarLogo {
+  margin-left: 15px;
+  color: white;
+  font-size: 20px;
+}
+
+.navBarBttn {
+  display: none;
+  margin-right: 30px;
+}
+
+.navBarBttn > button {
+  background-color: #55595c;
+  border: none;
+  padding: 10px 50px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+}
+
+/*
+* Small devices (landscape phones, 576px and up)
+*/
+@media (min-width: 576px) {
+  .navBar {
+    justify-content: space-between;
+  }
+
+  .navBarBttn {
+    display: flex;
+  }
+}
