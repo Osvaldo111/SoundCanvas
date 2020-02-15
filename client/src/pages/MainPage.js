@@ -14,8 +14,10 @@ export default class MainPage extends React.Component {
     return (
       <div className="mainPageContainer">
         <NavBar />
-        <SideBar />
-        <Canvas />
+        <div className="bottomContainer">
+          <SideBar />
+          <Canvas />
+        </div>
       </div>
     );
   }

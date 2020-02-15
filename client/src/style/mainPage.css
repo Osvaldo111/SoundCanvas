@@ -1,4 +1,13 @@
 .mainPageContainer {
   background-color: #434e5e;
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
   height: 100%;
+}
+
+.bottomContainer {
+  display: flex;
+  height: 100%;
+  position: relative;
 }
