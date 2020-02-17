@@ -24,6 +24,10 @@ class Canvas extends React.Component {
     alert();
   };
 
+  /**
+   * JUST A TEST
+   */
+
   isMobileBttnPress = () => {
     //Reducer bttn is press.
     this.props.isMobileBttnPress(true);
