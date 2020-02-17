@@ -2,6 +2,7 @@ import React from "react";
 import "../style/sideBar.css";
 import { connect } from "react-redux";
 import { displayMobileBttn } from "../actions";
+import { isMobileBttnPress } from "../actions";
 
 /**
  * author: Osvaldo Carrillo
@@ -12,23 +13,15 @@ import { displayMobileBttn } from "../actions";
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
 
     this.state = {
-      contaninerWidth: false,
-      widthFirstSide: null,
-      widthSecondSide: null,
-      closeMobile: false,
-      displayOpacity: false
+      displaySideBar: ""
     };
   }
 
   closeMobileBar = () => {
     this.setState({
-      contaninerWidth: false,
-      widthFirstSide: "0px",
-      widthSecondSide: "0px",
-      displayOpacity: "false"
+      displaySideBar: false
     });
 
     // Reducer to display the menu bttn in mobile
@@ -37,52 +30,41 @@ class SideBar extends React.Component {
 
   displayMobileSideBar = () => {
     this.setState({
-      contaninerWidth: true,
-      widthFirstSide: "60px",
-      widthSecondSide: "190px",
-      displayOpacity: "true"
+      displaySideBar: true
     });
   };
 
   componentDidUpdate(prevProps) {
     //Check when the mobile bttn is press
-    const currentBttnPress = this.props.canvasProps.checkBttnPress;
-    const prevBttnPress = prevProps.canvasProps.checkBttnPress;
-    if (currentBttnPress != prevBttnPress) {
-      console.log(currentBttnPress, "   ", prevBttnPress);
-      this.displayMobileSideBar();
+    const currentMobileNavPress = this.props.canvasProps.checkBttnPress;
+    const prevMobileNavPress = prevProps.canvasProps.checkBttnPress;
+
+    if (currentMobileNavPress !== prevMobileNavPress) {
+      if (currentMobileNavPress) {
+        console.log(currentMobileNavPress, "   ", prevMobileNavPress);
+        this.displayMobileSideBar();
+        // Reducer init
+        this.props.isMobileBttnPress(false);
+      }
     }
   }
 
   render() {
-    const { closeMobile } = this.state;
-    const { displayOpacity } = this.state;
-    const { contaninerWidth } = this.state;
-    console.log(closeMobile);
+    const { displaySideBar } = this.state;
+
     return (
       <div
         className="sideBarContainer"
-        style={{ width: contaninerWidth ? "100%" : "" }}
+        style={{ display: displaySideBar ? "flex" : "" }}
       >
-        <div
-          className="sideBarFirst"
-          style={{ width: this.state.widthFirstSide }}
-        >
+        <div className="sideBarFirst">
           <p>Backgro</p>
           <p>Backgr</p>
         </div>
-        <div
-          className="sideBarSecond"
-          style={{ width: this.state.widthSecondSide }}
-        >
+        <div className="sideBarSecond">
           <div>Backgrounddd</div>
         </div>
-        <div
-          className="closeSideBar"
-          onClick={this.closeMobileBar}
-          style={{ flexGrow: displayOpacity ? "1" : "0" }}
-          onClick={this.closeMobileBar}
-        ></div>
+        <div className="closeSideBar" onClick={this.closeMobileBar}></div>
       </div>
     );
   }
@@ -92,6 +74,7 @@ function mapStateToProps(state) {
   return { canvasProps: state.canvas };
 }
 const mapDispatchToProps = {
-  displayMobileBttn
+  displayMobileBttn,
+  isMobileBttnPress
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

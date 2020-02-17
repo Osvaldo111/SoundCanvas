@@ -1,7 +1,7 @@
 .sideBarContainer {
-  display: flex;
+  display: none;
   height: 100%;
-  width: 0; /*280px*/
+  width: 100%; /*280px*/
   position: absolute;
   transition: 0.5s;
 }
@@ -10,25 +10,22 @@
   display: flex;
   flex-direction: column;
   color: white;
-  width: 0px; /*100px*/
+  width: 100px; /*100px*/
   background-color: blue;
   height: 100%;
   overflow-x: hidden;
-  /* transition: 0.5s; */
-  /* position: absolute; */
 }
 
 .sideBarSecond {
   color: white;
-  width: 0; /*180px*/
+  width: 180; /*180px*/
   background-color: teal;
   overflow-x: hidden;
-  /* transition: 0.5s; */
 }
 
 .closeSideBar {
   background-color: rgba(0, 0, 0, 0.4);
-  flex-grow: 0;
+  flex-grow: 1;
 }
 /*
 * Small devices (small devices, 425px and up)
@@ -45,6 +42,9 @@
   .sideBarContainer {
     /* display: flex; */
   }
+  .sideBarSecond {
+    width: 250px;
+  }
 }
 
 /**
@@ -52,6 +52,16 @@
 */
 @media (min-width: 768px) {
   .sideBarContainer {
-    /* display: flex; */
+    display: flex;
+    position: relative;
+    width: auto;
+  }
+
+  .sideBarSecond {
+    display: none;
+  }
+
+  .closeSideBar {
+    display: none;
   }
 }

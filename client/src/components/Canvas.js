@@ -16,7 +16,7 @@ class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayBttn: ""
+      displayBttn: true
     };
   }
 
@@ -33,23 +33,24 @@ class Canvas extends React.Component {
     this.props.isMobileBttnPress(true);
     //Reducer display bttn
     // this.props.displayMobileBttn(false);
-    this.setState({ displayBttn: "none" });
+    this.setState({ displayBttn: false });
   };
 
   componentDidUpdate(prevProps) {
-    // if (
-    //   this.props.canvasProps.displayMobileBttn !=
-    //   prevProps.canvasProps.displayMobileBttn
-    // ) {
-    //   alert();
-    //   this.setState({ displayBttn: "flex" });
-    //   // console.log(this.props.canvasProps.displayMobileBttn);
-    //   // console.log(prevProps.canvasProps.displayMobileBttn);
-    //   // alert();
-    // }
+    const currentMobileNavBttn = this.props.canvasProps.displayMobileBttn;
+    const prevMobileNavBttn = prevProps.canvasProps.displayMobileBttn;
+
+    if (currentMobileNavBttn !== prevMobileNavBttn) {
+      if (currentMobileNavBttn) {
+        this.setState({ displayBttn: true });
+        //Reset reducer init
+        this.props.displayMobileBttn(false);
+      }
+    }
   }
 
   render() {
+    const { displayBttn } = this.state;
     return (
       <div className="canvasContainer">
         <canvas className="canvas"> </canvas>
@@ -61,7 +62,7 @@ class Canvas extends React.Component {
             onClick={this.isMobileBttnPress}
             src={mobilBttn}
             alt=""
-            style={{ display: this.state.displayBttn }}
+            style={{ display: displayBttn ? "flex" : "none" }}
           />
         </div>
       </div>

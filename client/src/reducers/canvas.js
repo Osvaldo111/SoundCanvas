@@ -13,7 +13,7 @@ export default function(state = init, action) {
     case CHANGE_CANVAS_WIDTH:
       return { width: action.width };
     case CANVAS_MOBILE_BTTN:
-      return { check: action.checkBttnPress };
+      return { checkBttnPress: action.checkBttnPress };
     case CANVAS_REDISPLAY_MOBILE_BTTN:
       return { displayMobileBttn: action.displayMobileBttn };
     default:
