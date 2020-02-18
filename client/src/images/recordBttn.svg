@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102" height="102" viewBox="0 0 102 102">
+  <g id="recordBttn" transform="translate(-1013 -5183)">
+    <circle id="Ellipse_8" data-name="Ellipse 8" cx="51" cy="51" r="51" transform="translate(1013 5183)" fill="#fff"/>
+    <g id="surface1" transform="translate(1041.746 5201.912)">
+      <path id="Path_192" data-name="Path 192" d="M181.444,25.888V12.944A12.944,12.944,0,0,0,168.5,0V38.832A12.944,12.944,0,0,0,181.444,25.888Zm0,0" transform="translate(-145.848)" fill="#bcbec0"/>
+      <path id="Path_193" data-name="Path 193" d="M72.5,12.944V25.888A12.944,12.944,0,0,0,85.444,38.832V0A12.944,12.944,0,0,0,72.5,12.944Zm0,0" transform="translate(-62.792)" fill="#d1d3d4"/>
+      <path id="Path_194" data-name="Path 194" d="M23.152,207.73A22.678,22.678,0,0,1,.5,185.079a1.079,1.079,0,1,1,2.157,0,20.495,20.495,0,0,0,40.989,0,1.079,1.079,0,1,1,2.157,0A22.678,22.678,0,0,1,23.152,207.73Zm0,0" transform="translate(-0.5 -159.191)" fill="#a7a9ac"/>
+      <path id="Path_195" data-name="Path 195" d="M161.579,361.259a1.079,1.079,0,0,1-1.079-1.079v-15.1a1.079,1.079,0,0,1,2.157,0v15.1A1.079,1.079,0,0,1,161.579,361.259Zm0,0" transform="translate(-138.927 -297.618)" fill="#a7a9ac"/>
+      <path id="Path_196" data-name="Path 196" d="M91.466,458.157H65.579a1.079,1.079,0,0,1,0-2.157H91.466a1.079,1.079,0,0,1,0,2.157Zm0,0" transform="translate(-55.871 -394.516)" fill="#a7a9ac"/>
+    </g>
+  </g>
+</svg>

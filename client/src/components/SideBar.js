@@ -3,7 +3,6 @@ import "../style/sideBar.css";
 import { connect } from "react-redux";
 import { displayMobileBttn } from "../actions";
 import { isMobileBttnPress } from "../actions";
-
 /**
  * author: Osvaldo Carrillo
  * Date: 02/08/2020
@@ -41,7 +40,6 @@ class SideBar extends React.Component {
 
     if (currentMobileNavPress !== prevMobileNavPress) {
       if (currentMobileNavPress) {
-        console.log(currentMobileNavPress, "   ", prevMobileNavPress);
         this.displayMobileSideBar();
         // Reducer init
         this.props.isMobileBttnPress(false);

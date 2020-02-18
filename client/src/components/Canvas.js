@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { changeCanvasWidth } from "../actions";
 import { isMobileBttnPress } from "../actions";
 import { displayMobileBttn } from "../actions";
+import recordBttn from "../images/recordBttn.svg";
+import resizeCanvas from "../utilities/resizeCanvas";
 
 import mobilBttn from "../images/menu-bttn.svg";
 /**
@@ -15,18 +17,17 @@ import mobilBttn from "../images/menu-bttn.svg";
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
+    this.canvasRef = React.createRef();
     this.state = {
-      displayBttn: true
+      displayBttn: true,
+      canvasWidth: "",
+      canvasHeight: ""
     };
   }
 
   pressBttn = () => {
     alert();
   };
-
-  /**
-   * JUST A TEST
-   */
 
   isMobileBttnPress = () => {
     //Reducer bttn is press.
@@ -35,6 +36,35 @@ class Canvas extends React.Component {
     // this.props.displayMobileBttn(false);
     this.setState({ displayBttn: false });
   };
+
+  componentDidMount() {
+    // const canvas = resizeCanvas(this.canvasRef);
+    // // console.log(canvas.width);
+    // // console.log(canvas.height);
+    // if (canvas.width <= 425) {
+    //   const newCanvasWidth = canvas.width - 75;
+    //   // console.log(newCanvasWidth);
+    //   this.setState({
+    //     canvasWidth: newCanvasWidth,
+    //     canvasHeight: newCanvasWidth
+    //   });
+    // }
+    // window.addEventListener("resize", () => {
+    //   const canvas = resizeCanvas(this.canvasRef);
+    //   // console.log(canvas.width);
+    //   // console.log(canvas.height);
+    //   if (canvas.width <= 425) {
+    //     const newCanvasWidth = canvas.width - 75;
+    //     console.log(newCanvasWidth);
+    //     this.setState({
+    //       canvasWidth: newCanvasWidth,
+    //       canvasHeight: newCanvasWidth
+    //     });
+    //   }
+    // });
+  }
+
+  componentWillUnmount() {}
 
   componentDidUpdate(prevProps) {
     const currentMobileNavBttn = this.props.canvasProps.displayMobileBttn;
@@ -50,13 +80,20 @@ class Canvas extends React.Component {
   }
 
   render() {
+    const { canvasWidth, canvasHeight } = this.state;
     const { displayBttn } = this.state;
     return (
-      <div className="canvasContainer">
-        <canvas className="canvas"> </canvas>
-        <div>Osvlslsl</div>
-        <div>dlmdlemel</div>
-        <button onClick={this.pressBttn}>osos</button>
+      <div className="canvasContainer" ref={this.canvasRef}>
+        <canvas
+          className="canvas"
+          style={{ width: canvasWidth, height: canvasHeight }}
+        ></canvas>
+        <div className="recordBttn">
+          <img src={recordBttn} alt="" onClick={this.pressBttn} />
+        </div>
+        <div className="resetBttnMobile">
+          <button onClick={this.pressBttn}>Reset</button>
+        </div>
         <div className="mobilBttn">
           <img
             onClick={this.isMobileBttnPress}
