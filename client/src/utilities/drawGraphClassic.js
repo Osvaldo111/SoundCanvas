@@ -9,19 +9,18 @@
  * @param {Array} arr
  */
 function drawGraphInCanvas(canvas, arrAmplitud) {
-  //   var canvas = document.getElementById("canvas"),
   var context = canvas.getContext("2d"),
     width = canvas.width,
     height = canvas.height;
 
-  console.log("Width: ", width, " Height: ", height);
+  //   console.log("Width: ", width, " Height: ", height);
   // Save to restore original and avoid
   // accumulative transalate and scale.
   context.save();
   context.translate(0, height - 50);
   context.scale(1, -1);
 
-  //   // Divided in 30 for the 30 seconds limit
+  // Divided in 30 for the 30 seconds limit
   var distanceMovement = width / 30;
 
   var left = 0,
@@ -56,8 +55,15 @@ function drawGraphInCanvas(canvas, arrAmplitud) {
   context.restore();
 }
 
+/**
+ * This function scales the given value of the
+ * frequency amplitud which is 1-100. The range is 100
+ * and the scale is the high of the canvas.
+ * @param {Int} valueToScale
+ * @param {Int} scale
+ * @param {Int} range
+ */
 function scaleToRange(valueToScale, scale, range = 100) {
-  // alert(rangeScale);
   return (valueToScale / range) * scale;
 }
 

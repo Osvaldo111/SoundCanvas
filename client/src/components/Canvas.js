@@ -5,7 +5,6 @@ import { changeCanvasWidth } from "../actions";
 import { isMobileBttnPress } from "../actions";
 import { displayMobileBttn } from "../actions";
 import recordBttn from "../images/recordBttn.svg";
-// import audioUtilities from "../utilities/resizeCanvas";
 import audioUtilities from "../utilities/recording";
 import graphs from "../utilities/drawGraphClassic";
 
@@ -26,20 +25,28 @@ class Canvas extends React.Component {
       canvasHeight: 600,
       recorderBttn: false,
       arrayOfAmplitud: [],
-      developmentVar: "example"
+      developmentVar: "example",
+      timeLimitSeconds: 30,
+      timeLeft: null,
+      cancelReqFrame: false
     };
   }
 
   componentDidMount() {
-    this.processAudio(); // Development: Change on click
-    this.drawClassicGraph();
+    // this.processAudio(); // Development: Change on click
+    // this.reqFrameGraph();
   }
 
-  drawClassicGraph = () => {
+  // Request to redraw the graph dynacmically.
+  reqFrameGraph = () => {
+    const { cancelReqFrame } = this.state;
     const canvas = this.canvasRef.current;
-    var arrAmplitud = [10, 20, 30, 100];
     graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
-    requestAnimationFrame(this.drawClassicGraph);
+    var reqFrame = requestAnimationFrame(this.reqFrameGraph);
+
+    if (cancelReqFrame) {
+      cancelAnimationFrame(reqFrame);
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -114,19 +121,39 @@ class Canvas extends React.Component {
     }
   };
 
+  /**
+   * This function uses the AnalyserNode interface that
+   *  represents a node providing real-time
+   * frequency and time-domain analysis information.
+   */
   connectionToStreamSource = (analyser, dataArray, audioCtx) => {
+    var { timeLimitSeconds, timeLeft } = this.state;
     var counterOfInterval = 0;
+    var timeLeft = timeLimitSeconds;
+
+    // Repeat the function every second
     var myInterval = setInterval(() => {
       counterOfInterval++;
       var frequencyData = audioUtilities.getFrequencyData(analyser, dataArray);
-      this.setState({ arrayOfAmplitud: frequencyData }, () => {
-        console.log("After setting the Array", frequencyData);
-      });
-      if (counterOfInterval === 5) {
+
+      // Updating the array with the frequency amplitud
+      // and the time left
+      this.setState(
+        { arrayOfAmplitud: frequencyData, timeLeft: --timeLeft },
+        () => {
+          console.log("After setting the Array", frequencyData);
+        }
+      );
+      if (counterOfInterval === timeLimitSeconds) {
+        // Stop Recording
         audioCtx.close().then(() => {
           console.log("Stop Recording");
         });
-        clearInterval(myInterval);
+
+        // Cancel frame request.
+        this.setState({ cancelReqFrame: true }, () => {
+          clearInterval(myInterval);
+        });
       }
     }, 1000);
   };
@@ -144,10 +171,13 @@ class Canvas extends React.Component {
   };
 
   isRecorderBttnPressed = () => {
-    const { recorderBttn } = this.state;
+    const { recorderBttn, timeLimitSeconds } = this.state;
+    var time = timeLimitSeconds;
     if (recorderBttn === false) {
-      this.setState({ recorderBttn: true }, () => {
+      this.setState({ recorderBttn: true, timeLeft: time }, () => {
         // recordAudio();
+        this.processAudio(); // Development: Change on click
+        this.reqFrameGraph();
       });
     }
   };
@@ -181,7 +211,7 @@ class Canvas extends React.Component {
 
   render() {
     const { canvasWidth, canvasHeight } = this.state;
-    const { displayBttn, arrayOfAmplitud } = this.state;
+    const { displayBttn, timeLeft } = this.state;
     return (
       <div className="canvasContainer">
         <canvas
@@ -205,7 +235,7 @@ class Canvas extends React.Component {
             style={{ display: displayBttn ? "flex" : "none" }}
           />
         </div>
-        <p>{arrayOfAmplitud.length}</p>
+        <p>{timeLeft}</p>
       </div>
     );
   }
