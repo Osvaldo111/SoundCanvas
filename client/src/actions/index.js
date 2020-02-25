@@ -26,3 +26,27 @@ export const displayMobileBttn = displayMobileBttn => ({
   type: types.CANVAS_REDISPLAY_MOBILE_BTTN,
   displayMobileBttn
 });
+
+/**
+ * Get screen width
+ * @param {int} width
+ */
+export const setScreenWidth = width => ({
+  type: types.SCREEN_WIDTH,
+  width
+});
+
+/**
+ * Get screen heigh
+ * @param {int} height
+ */
+export const setScreenHeight = height => ({
+  type: types.SCREEN_HEIGHT,
+  height
+});
+
+export const setScreenSize = (width, height) => ({
+  type: types.SCREEN_SIZE,
+  width,
+  height
+});

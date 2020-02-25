@@ -1,6 +1,6 @@
 const resizeCanvas = canvasElement => {
-  const canvasHeight = canvasElement.current.offsetHeight;
-  const canvasWidth = canvasElement.current.offsetWidth;
+  const canvasHeight = canvasElement.current.clientHeight;
+  const canvasWidth = canvasElement.current.clientWidth;
 
   const canvasMeasure = {
     width: canvasWidth,

@@ -3,16 +3,35 @@ import "../style/mainPage.css";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Canvas from "../components/Canvas";
+import { connect } from "react-redux";
+import { setScreenWidth } from "../actions";
+import { setScreenHeight } from "../actions";
+import { setScreenSize } from "../actions";
+
 /**
  * @author Osvaldo Carrillo
  * Date: 02/08/2020
  * This class should hold all the components of the main page
  * of the application.
  */
-export default class MainPage extends React.Component {
+class MainPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.canvasContainerRef = React.createRef();
+  }
+
+  componentDidMount() {
+    // Set the hight and width when resizing.
+    window.addEventListener("resize", () => {
+      const widthScreen = this.canvasContainerRef.current.clientWidth;
+      const heightScreen = this.canvasContainerRef.current.clientHeight;
+      this.props.setScreenSize(widthScreen, heightScreen);
+    });
+  }
+
   render() {
     return (
-      <div className="mainPageContainer">
+      <div className="mainPageContainer" ref={this.canvasContainerRef}>
         <NavBar />
         <div className="bottomContainer">
           <SideBar />
@@ -22,3 +41,15 @@ export default class MainPage extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { screenSize: state };
+}
+
+const mapDispatchToProps = {
+  setScreenWidth,
+  setScreenHeight,
+  setScreenSize
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

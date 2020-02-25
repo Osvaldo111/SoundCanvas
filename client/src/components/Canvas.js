@@ -35,46 +35,46 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
+    // Setting up the canvas when init.
     const canvasContainer = resizeCanvas(this.canvasContainerRef);
-    // console.log("Original Width: ", canvasContainer.width);
-    // console.log("original heigh: ", canvasContainer.height);
-
-    console.log("Width: ", window.innerWidth, " Height: ", window.innerHeight);
-    canvasSizes(canvasSize => {
-      console.log(canvasSize);
+    canvasSizes(canvasContainer, canvasSize => {
       this.setState({
         canvasWidth: canvasSize.width,
         canvasHeight: canvasSize.height
       });
     });
-    // const canvasSize = canvasSizes(canvas);
-    // console.log(canvasSize);
-
-    // if (canvas.width <= 425) {
-    //   const newCanvasWidth = canvas.width - 75;
-    //   // console.log(newCanvasWidth);
-    //   this.setState({
-    //     canvasWidth: newCanvasWidth,
-    //     canvasHeight: newCanvasWidth
-    //   });
-    // }
-    // window.addEventListener("resize", () => {
-    //   const canvas = resizeCanvas(this.canvasRef);
-    //   // console.log(canvas.width);
-    //   // console.log(canvas.height);
-    //   if (canvas.width <= 425) {
-    //     const newCanvasWidth = canvas.width - 75;
-    //     console.log(newCanvasWidth);
-    //     this.setState({
-    //       canvasWidth: newCanvasWidth,
-    //       canvasHeight: newCanvasWidth
-    //     });
-    //   }
-    // });
-    // this.processAudio(); // Development: Change on click
-    // this.reqFrameGraph();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const currentMobileNavBttn = this.props.canvasProps.displayMobileBttn;
+    const prevMobileNavBttn = prevProps.canvasProps.displayMobileBttn;
+
+    const currentScreenWidth = this.props.windowSize.width;
+    const prevScreenWidth = prevProps.windowSize.width;
+
+    // Listening to the mainpage to get the device client width
+    // and height to avoid distortions on the canvas.
+    if (currentScreenWidth !== prevScreenWidth) {
+      const canvasContainer = {
+        width: this.props.windowSize.width,
+        height: this.props.windowSize.height
+      };
+      canvasSizes(canvasContainer, canvasSize => {
+        this.setState({
+          canvasWidth: canvasSize.width,
+          canvasHeight: canvasSize.height
+        });
+      });
+    }
+
+    if (currentMobileNavBttn !== prevMobileNavBttn) {
+      if (currentMobileNavBttn) {
+        this.setState({ displayBttn: true });
+        //Reset reducer init
+        this.props.displayMobileBttn(false);
+      }
+    }
+  }
   // Request to redraw the graph dynacmically.
   reqFrameGraph = () => {
     const { cancelReqFrame } = this.state;
@@ -86,19 +86,6 @@ class Canvas extends React.Component {
       cancelAnimationFrame(reqFrame);
     }
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    const currentMobileNavBttn = this.props.canvasProps.displayMobileBttn;
-    const prevMobileNavBttn = prevProps.canvasProps.displayMobileBttn;
-
-    if (currentMobileNavBttn !== prevMobileNavBttn) {
-      if (currentMobileNavBttn) {
-        this.setState({ displayBttn: true });
-        //Reset reducer init
-        this.props.displayMobileBttn(false);
-      }
-    }
-  }
 
   /**
    * This function is designed to check and as for permission
@@ -165,9 +152,9 @@ class Canvas extends React.Component {
    * frequency and time-domain analysis information.
    */
   connectionToStreamSource = (analyser, dataArray, audioCtx) => {
-    var { timeLimitSeconds, timeLeft } = this.state;
+    var { timeLimitSeconds } = this.state;
     var counterOfInterval = 0;
-    var timeLeft = timeLimitSeconds;
+    var remainingTime = timeLimitSeconds;
 
     // Repeat the function every second
     var myInterval = setInterval(() => {
@@ -177,7 +164,7 @@ class Canvas extends React.Component {
       // Updating the array with the frequency amplitud
       // and the time left
       this.setState(
-        { arrayOfAmplitud: frequencyData, timeLeft: --timeLeft },
+        { arrayOfAmplitud: frequencyData, timeLeft: --remainingTime },
         () => {
           console.log("After setting the Array", frequencyData);
         }
@@ -257,7 +244,10 @@ class Canvas extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { canvasProps: state.canvas };
+  return {
+    canvasProps: state.canvas,
+    windowSize: state.mainPage
+  };
 }
 
 const mapDispatchToProps = {
