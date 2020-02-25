@@ -7,7 +7,8 @@ import { displayMobileBttn } from "../actions";
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
 import graphs from "../utilities/drawGraphClassic";
-
+import resizeCanvas from "../utilities/resizeCanvas";
+import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
 /**
  * author: Osvaldo Carrillo
@@ -19,10 +20,11 @@ class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
+    this.canvasContainerRef = React.createRef();
     this.state = {
       displayBttn: true,
-      canvasWidth: 600,
-      canvasHeight: 600,
+      canvasWidth: "",
+      canvasHeight: "",
       recorderBttn: false,
       arrayOfAmplitud: [],
       developmentVar: "example",
@@ -33,6 +35,42 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
+    const canvasContainer = resizeCanvas(this.canvasContainerRef);
+    // console.log("Original Width: ", canvasContainer.width);
+    // console.log("original heigh: ", canvasContainer.height);
+
+    console.log("Width: ", window.innerWidth, " Height: ", window.innerHeight);
+    canvasSizes(canvasSize => {
+      console.log(canvasSize);
+      this.setState({
+        canvasWidth: canvasSize.width,
+        canvasHeight: canvasSize.height
+      });
+    });
+    // const canvasSize = canvasSizes(canvas);
+    // console.log(canvasSize);
+
+    // if (canvas.width <= 425) {
+    //   const newCanvasWidth = canvas.width - 75;
+    //   // console.log(newCanvasWidth);
+    //   this.setState({
+    //     canvasWidth: newCanvasWidth,
+    //     canvasHeight: newCanvasWidth
+    //   });
+    // }
+    // window.addEventListener("resize", () => {
+    //   const canvas = resizeCanvas(this.canvasRef);
+    //   // console.log(canvas.width);
+    //   // console.log(canvas.height);
+    //   if (canvas.width <= 425) {
+    //     const newCanvasWidth = canvas.width - 75;
+    //     console.log(newCanvasWidth);
+    //     this.setState({
+    //       canvasWidth: newCanvasWidth,
+    //       canvasHeight: newCanvasWidth
+    //     });
+    //   }
+    // });
     // this.processAudio(); // Development: Change on click
     // this.reqFrameGraph();
   }
@@ -183,37 +221,14 @@ class Canvas extends React.Component {
   };
 
   // componentDidMount() {
-  // const canvas = resizeCanvas(this.canvasRef);
-  // // console.log(canvas.width);
-  // // console.log(canvas.height);
-  // if (canvas.width <= 425) {
-  //   const newCanvasWidth = canvas.width - 75;
-  //   // console.log(newCanvasWidth);
-  //   this.setState({
-  //     canvasWidth: newCanvasWidth,
-  //     canvasHeight: newCanvasWidth
-  //   });
-  // }
-  // window.addEventListener("resize", () => {
-  //   const canvas = resizeCanvas(this.canvasRef);
-  //   // console.log(canvas.width);
-  //   // console.log(canvas.height);
-  //   if (canvas.width <= 425) {
-  //     const newCanvasWidth = canvas.width - 75;
-  //     console.log(newCanvasWidth);
-  //     this.setState({
-  //       canvasWidth: newCanvasWidth,
-  //       canvasHeight: newCanvasWidth
-  //     });
-  //   }
-  // });
+
   // }
 
   render() {
     const { canvasWidth, canvasHeight } = this.state;
     const { displayBttn, timeLeft } = this.state;
     return (
-      <div className="canvasContainer">
+      <div className="canvasContainer" ref={this.canvasContainerRef}>
         <canvas
           className="canvas"
           width={canvasWidth}
