@@ -81,5 +81,7 @@ function getRandomColor() {
 }
 
 module.exports = {
-  drawGraphInCanvas: drawGraphInCanvas
+  drawGraphInCanvas: drawGraphInCanvas,
+  scaleToRange,
+  getRandomColor
 };

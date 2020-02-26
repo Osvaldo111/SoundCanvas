@@ -7,6 +7,7 @@ import { displayMobileBttn } from "../actions";
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
 import graphs from "../utilities/drawGraphClassic";
+import soundWaveThin from "../utilities/graphs/deve";
 import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
@@ -34,6 +35,12 @@ class Canvas extends React.Component {
     };
   }
 
+  develop = () => {
+    const canvas = this.canvasRef.current; //dev
+    const arrayNum = [10, 20, 30, 40, 50, 97, 20, 86, 20, 13];
+    soundWaveThin(canvas, arrayNum);
+    // graphs.drawGraphInCanvas(canvas, arrayNum);
+  };
   componentDidMount() {
     // Setting up the canvas when init.
     const canvasContainer = resizeCanvas(this.canvasContainerRef);
@@ -243,7 +250,7 @@ class Canvas extends React.Component {
           <img src={recordBttn} alt="" onClick={this.isRecorderBttnPressed} />
         </div>
         <div className="resetBttnMobile">
-          <button onClick={this.pressBttn}>Reset</button>
+          <button onClick={this.develop}>Reset</button>
         </div>
         <div className="mobilBttn">
           <img
