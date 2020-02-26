@@ -37,3 +37,11 @@ export const setScreenSize = (width, height) => ({
   width,
   height
 });
+
+/**
+ * Set the sidebar with to resize the canvas
+ */
+export const setSideBarWidth = width => ({
+  type: types.SIDEBAR_CANVAS_RESIZE,
+  width
+});

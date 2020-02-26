@@ -86,6 +86,7 @@
 
   .sideBarSecond {
     display: none;
+    width: 250px;
   }
 
   .closeSideBar {

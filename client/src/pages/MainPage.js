@@ -19,6 +19,11 @@ class MainPage extends React.Component {
   }
 
   componentDidMount() {
+    //Init the width and height
+    const widthScreen = this.canvasContainerRef.current.clientWidth;
+    const heightScreen = this.canvasContainerRef.current.clientHeight;
+    this.props.setScreenSize(widthScreen, heightScreen);
+
     // Set the hight and width when resizing.
     window.addEventListener("resize", () => {
       const widthScreen = this.canvasContainerRef.current.clientWidth;

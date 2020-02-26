@@ -9,6 +9,7 @@ import closeButtn from "../images/closeButton.svg";
 import { connect } from "react-redux";
 import { displayMobileBttn } from "../actions";
 import { isMobileBttnPress } from "../actions";
+import { setSideBarWidth } from "../actions";
 /**
  * author: Osvaldo Carrillo
  * Date: 02/08/2020
@@ -18,18 +19,25 @@ import { isMobileBttnPress } from "../actions";
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
-
+    this.secondaryBarRef = React.createRef();
     this.state = {
       displaySideBar: "",
       displayBackgroundBar: false,
       displaySWColorBar: false,
       displaySWThickBar: false,
       displaySWWidthBar: false,
-      displayTextBar: false
+      displayTextBar: false,
+      displaySecondSideBar: false
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidMount() {
+    window.addEventListener("resize", () => {
+      this.resetState();
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     //Check when the mobile bttn is press
     const currentMobileNavPress = this.props.canvasProps.checkBttnPress;
     const prevMobileNavPress = prevProps.canvasProps.checkBttnPress;
@@ -41,11 +49,24 @@ class SideBar extends React.Component {
         this.props.isMobileBttnPress(false);
       }
     }
+
+    const currentStateSideBar = this.state.displaySecondSideBar;
+    const prevStateSideBar = prevState.displaySecondSideBar;
+
+    if (currentStateSideBar !== prevStateSideBar) {
+      const currentBarWidth = this.secondaryBarRef.current.clientWidth;
+      const screenWidth = this.props.windowSize.width;
+
+      // Check when window is greater then 768 px
+      if (screenWidth >= 768 && screenWidth <= 1400) {
+        this.props.setSideBarWidth(currentBarWidth);
+      }
+    }
   }
 
-  closeMobileBar = () => {
+  resetState = () => {
     this.setState({
-      displaySideBar: false,
+      displaySideBar: "",
       displayBackgroundBar: false,
       displaySWColorBar: false,
       displaySWThickBar: false,
@@ -53,25 +74,21 @@ class SideBar extends React.Component {
       displayTextBar: false,
       displaySecondSideBar: false
     });
+  };
 
+  closeMobileBar = () => {
+    this.resetState();
     // Reducer to display the menu bttn in mobile
     this.props.displayMobileBttn(true);
   };
 
   closeSecondaryBarDesk = () => {
-    this.setState({
-      displaySideBar: false,
-      displayBackgroundBar: false,
-      displaySWColorBar: false,
-      displaySWThickBar: false,
-      displaySWWidthBar: false,
-      displayTextBar: false,
-      displaySecondSideBar: false
-    });
+    this.resetState();
   };
+
   displayMobileSideBar = () => {
     this.setState({
-      displaySideBar: true,
+      displaySideBar: true, //Mobile
       // Init background bar
       displayBackgroundBar: true,
       displaySWColorBar: false,
@@ -170,6 +187,7 @@ class SideBar extends React.Component {
         <div
           className="sideBarSecond"
           style={{ display: displaySecondSideBar ? "flex" : "" }}
+          ref={this.secondaryBarRef}
         >
           <BackgroundSideBar display={this.state.displayBackgroundBar} />
           <SoundwaveColorBar display={this.state.displaySWColorBar} />
@@ -192,10 +210,11 @@ class SideBar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return { canvasProps: state.canvas };
+  return { canvasProps: state.canvas, windowSize: state.mainPage };
 }
 const mapDispatchToProps = {
   displayMobileBttn,
-  isMobileBttnPress
+  isMobileBttnPress,
+  setSideBarWidth
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

@@ -52,6 +52,9 @@ class Canvas extends React.Component {
     const currentScreenWidth = this.props.windowSize.width;
     const prevScreenWidth = prevProps.windowSize.width;
 
+    const currentSideBarWith = this.props.canvasProps.sideBarWidth;
+    const prevSideBarWith = prevProps.canvasProps.sideBarWidth;
+
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
     if (currentScreenWidth !== prevScreenWidth) {
@@ -72,6 +75,23 @@ class Canvas extends React.Component {
         this.setState({ displayBttn: true });
         //Reset reducer init
         this.props.displayMobileBttn(false);
+      }
+    }
+
+    if (currentSideBarWith !== prevSideBarWith) {
+      if (currentSideBarWith !== undefined) {
+        const sideBarWidth = this.props.canvasProps.sideBarWidth;
+        const canvasContainer = {
+          width: this.props.windowSize.width,
+          height: this.props.windowSize.height
+        };
+
+        canvasSizes(canvasContainer, canvasSize => {
+          this.setState({
+            canvasWidth: canvasSize.width - sideBarWidth,
+            canvasHeight: canvasSize.height - sideBarWidth
+          });
+        });
       }
     }
   }
@@ -206,10 +226,6 @@ class Canvas extends React.Component {
       });
     }
   };
-
-  // componentDidMount() {
-
-  // }
 
   render() {
     const { canvasWidth, canvasHeight } = this.state;
