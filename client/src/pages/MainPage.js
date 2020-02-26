@@ -4,8 +4,6 @@ import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import Canvas from "../components/Canvas";
 import { connect } from "react-redux";
-import { setScreenWidth } from "../actions";
-import { setScreenHeight } from "../actions";
 import { setScreenSize } from "../actions";
 
 /**
@@ -47,8 +45,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setScreenWidth,
-  setScreenHeight,
   setScreenSize
 };
 

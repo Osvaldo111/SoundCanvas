@@ -28,23 +28,10 @@ export const displayMobileBttn = displayMobileBttn => ({
 });
 
 /**
- * Get screen width
+ * Set the screen width and height
  * @param {int} width
- */
-export const setScreenWidth = width => ({
-  type: types.SCREEN_WIDTH,
-  width
-});
-
-/**
- * Get screen heigh
  * @param {int} height
  */
-export const setScreenHeight = height => ({
-  type: types.SCREEN_HEIGHT,
-  height
-});
-
 export const setScreenSize = (width, height) => ({
   type: types.SCREEN_SIZE,
   width,
