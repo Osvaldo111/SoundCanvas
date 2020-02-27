@@ -22,6 +22,7 @@
   width: 180px; /*180px*/
   background-color: black;
   overflow-x: hidden;
+  overflow: hidden; /*Remove scroll bar*/
 }
 
 .closeSideBar {
@@ -50,6 +51,7 @@
   width: 30px;
   height: 30px;
   padding: 5px;
+  cursor: pointer;
 }
 /***Sidebar close bttn***/
 

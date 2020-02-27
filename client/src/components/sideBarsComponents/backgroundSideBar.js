@@ -1,11 +1,21 @@
 import React from "react";
 import "../../style/backgroundSideBar.css";
 import { connect } from "react-redux";
+import ColorPicker from "../colorPicker";
 
 class BackgroundSideBar extends React.Component {
-  render() {
-    // console.log(this.props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      background: "#fff"
+    };
+  }
 
+  handleChangeComplete = color => {
+    this.setState({ background: color.hex });
+  };
+
+  render() {
     const { display } = this.props;
     return (
       <div
@@ -14,8 +24,9 @@ class BackgroundSideBar extends React.Component {
           display: display ? "flex" : "none"
         }}
       >
+        <div className="backSBTitle">Colors</div>
         <div>
-          <p>Colors</p>
+          <ColorPicker />
         </div>
       </div>
     );

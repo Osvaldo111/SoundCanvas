@@ -31,7 +31,8 @@ class Canvas extends React.Component {
       developmentVar: "example",
       timeLimitSeconds: 30,
       timeLeft: null,
-      cancelReqFrame: false
+      cancelReqFrame: false,
+      canvasColor: "#fff"
     };
   }
 
@@ -61,6 +62,9 @@ class Canvas extends React.Component {
 
     const currentSideBarWith = this.props.canvasProps.sideBarWidth;
     const prevSideBarWith = prevProps.canvasProps.sideBarWidth;
+
+    const currCanvasCol = this.props.canvasProps.canvasColor;
+    const prevCanvasCol = prevProps.canvasProps.canvasColor;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -99,6 +103,13 @@ class Canvas extends React.Component {
             canvasHeight: canvasSize.height - sideBarWidth
           });
         });
+      }
+    }
+
+    if (currCanvasCol !== prevCanvasCol) {
+      if (currCanvasCol) {
+        console.log(currCanvasCol);
+        this.setState({ canvasColor: currCanvasCol });
       }
     }
   }
@@ -237,7 +248,7 @@ class Canvas extends React.Component {
   };
 
   render() {
-    const { canvasWidth, canvasHeight } = this.state;
+    const { canvasWidth, canvasHeight, canvasColor } = this.state;
     const { displayBttn, timeLeft } = this.state;
     return (
       <div className="canvasContainer" ref={this.canvasContainerRef}>
@@ -247,6 +258,7 @@ class Canvas extends React.Component {
           height={canvasHeight}
           /* style={{ width: canvasWidth, height: canvasHeight }} */
           ref={this.canvasRef}
+          style={{ backgroundColor: canvasColor }}
         ></canvas>
         <div className="recordBttn">
           <img src={recordBttn} alt="" onClick={this.isRecorderBttnPressed} />

@@ -2,12 +2,14 @@ import { CHANGE_CANVAS_WIDTH } from "../constants/ActionTypes";
 import { CANVAS_MOBILE_BTTN } from "../constants/ActionTypes";
 import { CANVAS_REDISPLAY_MOBILE_BTTN } from "../constants/ActionTypes";
 import { SIDEBAR_CANVAS_RESIZE } from "../constants/ActionTypes";
+import { CANVAS_COLOR } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
   checkBttnPress: false,
   displayMobileBttn: false,
-  sideBarWidth: 0
+  sideBarWidth: 0,
+  canvasColor: "#fff"
 };
 
 export default function(state = init, action) {
@@ -20,6 +22,8 @@ export default function(state = init, action) {
       return { displayMobileBttn: action.displayMobileBttn };
     case SIDEBAR_CANVAS_RESIZE:
       return { sideBarWidth: action.width };
+    case CANVAS_COLOR:
+      return { canvasColor: action.color };
     default:
       return state;
   }

@@ -45,3 +45,8 @@ export const setSideBarWidth = width => ({
   type: types.SIDEBAR_CANVAS_RESIZE,
   width
 });
+
+export const setCanvasColor = color => ({
+  type: types.CANVAS_COLOR,
+  color
+});
