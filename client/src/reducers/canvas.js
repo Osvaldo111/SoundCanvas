@@ -3,13 +3,14 @@ import { CANVAS_MOBILE_BTTN } from "../constants/ActionTypes";
 import { CANVAS_REDISPLAY_MOBILE_BTTN } from "../constants/ActionTypes";
 import { SIDEBAR_CANVAS_RESIZE } from "../constants/ActionTypes";
 import { CANVAS_COLOR } from "../constants/ActionTypes";
-
+import { CANVAS_SOUNDWAVE_COLOR } from "../constants/ActionTypes";
 const init = {
   width: 0,
   checkBttnPress: false,
   displayMobileBttn: false,
   sideBarWidth: 0,
-  canvasColor: "#fff"
+  canvasColor: "#fff",
+  swColor: "#000000"
 };
 
 export default function(state = init, action) {
@@ -24,6 +25,8 @@ export default function(state = init, action) {
       return { sideBarWidth: action.width };
     case CANVAS_COLOR:
       return { canvasColor: action.color };
+    case CANVAS_SOUNDWAVE_COLOR:
+      return { swColor: action.color };
     default:
       return state;
   }

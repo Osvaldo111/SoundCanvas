@@ -1,19 +1,28 @@
 import React from "react";
 import "../../style/soundwaveColorBar.css";
 import { connect } from "react-redux";
-
+import ColorPicker from "../colorPicker";
+import { setSWColor } from "../../actions";
 class SoundwaveColorBar extends React.Component {
-  render() {
-    // console.log(this.props);
+  constructor(props) {
+    super(props);
+  }
 
+  handleChangeComplete = color => {
+    console.log(color, "  **Sound Wave");
+    this.props.setSWColor(color);
+  };
+
+  render() {
     const { display } = this.props;
     return (
       <div
         className="soundwaveColBar"
         style={{ display: display ? "flex" : "none" }}
       >
+        <div className="swbarTitle">Soundwave Colors</div>
         <div>
-          <p>Soundwave Colors</p>
+          <ColorPicker handleGetColor={this.handleChangeComplete} />
         </div>
       </div>
     );
@@ -21,5 +30,5 @@ class SoundwaveColorBar extends React.Component {
 }
 
 function mapStateToProps(state) {}
-const mapDispatchToProps = {};
+const mapDispatchToProps = { setSWColor };
 export default connect(null, mapDispatchToProps)(SoundwaveColorBar);

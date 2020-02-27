@@ -46,7 +46,20 @@ export const setSideBarWidth = width => ({
   width
 });
 
+/**
+ * Set the background color of the canvas
+ * @param {String} color
+ */
 export const setCanvasColor = color => ({
   type: types.CANVAS_COLOR,
+  color
+});
+
+/**
+ * Set the soundwave color
+ * @param {String} color
+ */
+export const setSWColor = color => ({
+  type: types.CANVAS_SOUNDWAVE_COLOR,
   color
 });

@@ -32,8 +32,10 @@ class Canvas extends React.Component {
       timeLimitSeconds: 30,
       timeLeft: null,
       cancelReqFrame: false,
-      canvasColor: "#fff"
+      canvasColor: "#fff",
+      soundWaveColor: "#000000"
     };
+    console.log(this.props);
   }
 
   develop = () => {
@@ -65,6 +67,9 @@ class Canvas extends React.Component {
 
     const currCanvasCol = this.props.canvasProps.canvasColor;
     const prevCanvasCol = prevProps.canvasProps.canvasColor;
+
+    const currSWCol = this.props.canvasProps.swColor;
+    const prevSWCol = prevProps.canvasProps.swColor;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -108,8 +113,17 @@ class Canvas extends React.Component {
 
     if (currCanvasCol !== prevCanvasCol) {
       if (currCanvasCol) {
-        console.log(currCanvasCol);
         this.setState({ canvasColor: currCanvasCol });
+      }
+    }
+
+    if (currSWCol !== prevSWCol) {
+      if (currSWCol) {
+        const canvas = this.canvasRef.current;
+
+        soundWaveThin(canvas, this.state.arrayOfAmplitud, currSWCol);
+
+        this.setState({ soundWaveColor: currSWCol });
       }
     }
   }

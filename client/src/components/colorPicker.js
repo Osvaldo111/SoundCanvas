@@ -1,13 +1,21 @@
 import React from "react";
 import "../style/colorPicker.css";
 import { connect } from "react-redux";
-import { setCanvasColor } from "../actions";
 
+/**
+ * Date: 02/27/2019
+ * author: Osvaldo Carrillo
+ * This class is designed to allow the user to pick different
+ * colors of the set provided and also introduced colors in
+ * hexadecimal value.
+ * This class has to use the method "handleGetColor(colorSelected)"
+ * as a property which return the selected color.
+ */
 class ColorPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: "#fff",
+      color: "",
       colorInput: "",
       errorInput: false
     };
@@ -18,13 +26,14 @@ class ColorPicker extends React.Component {
     if (event.target.tagName === "LI") {
       var colorSelected = event.target.getAttribute("data-color");
       this.setState({ color: colorSelected }, () => {
-        this.props.setCanvasColor(colorSelected);
+        this.props.handleGetColor(colorSelected);
       });
     }
   };
 
   // Submit the color given by the user.
   submitColor = () => {
+    // this.props.handleGetColor(this.state.colorInput);
     this.setState({ errorInput: false }, () => {
       if (this.state.colorInput === "") {
         this.setState({ errorInput: true, colorInput: "" });
@@ -32,7 +41,7 @@ class ColorPicker extends React.Component {
         this.setState(
           { color: "#" + this.state.colorInput, colorInput: "" },
           () => {
-            this.props.setCanvasColor(this.state.color);
+            this.props.handleGetColor(this.state.color);
           }
         );
       }
@@ -78,7 +87,5 @@ class ColorPicker extends React.Component {
 }
 
 function mapStateToProps(state) {}
-const mapDispatchToProps = {
-  setCanvasColor
-};
+const mapDispatchToProps = {};
 export default connect(null, mapDispatchToProps)(ColorPicker);

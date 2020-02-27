@@ -1,5 +1,5 @@
 import drawU from "../drawGraphClassic";
-const drawCanvasThinSW = (canvas, arrAmplitud) => {
+const drawCanvasThinSW = (canvas, arrAmplitud, swColor = "#000000") => {
   var context = canvas.getContext("2d"),
     width = canvas.width,
     height = canvas.height;
@@ -38,7 +38,7 @@ const drawCanvasThinSW = (canvas, arrAmplitud) => {
     context.moveTo(left, pushDownTop);
     context.lineTo(left, lineHeight + pushDownTop);
     context.lineWidth = lineWidth;
-    context.strokeStyle = drawU.getRandomColor();
+    context.strokeStyle = swColor;
     context.stroke();
     left += lineWidth;
 

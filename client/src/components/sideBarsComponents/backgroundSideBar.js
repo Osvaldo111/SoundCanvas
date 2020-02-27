@@ -2,17 +2,15 @@ import React from "react";
 import "../../style/backgroundSideBar.css";
 import { connect } from "react-redux";
 import ColorPicker from "../colorPicker";
+import { setCanvasColor } from "../../actions";
 
 class BackgroundSideBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      background: "#fff"
-    };
   }
 
   handleChangeComplete = color => {
-    this.setState({ background: color.hex });
+    this.props.setCanvasColor(color);
   };
 
   render() {
@@ -26,7 +24,7 @@ class BackgroundSideBar extends React.Component {
       >
         <div className="backSBTitle">Colors</div>
         <div>
-          <ColorPicker />
+          <ColorPicker handleGetColor={this.handleChangeComplete} />
         </div>
       </div>
     );
@@ -34,5 +32,7 @@ class BackgroundSideBar extends React.Component {
 }
 
 function mapStateToProps(state) {}
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setCanvasColor
+};
 export default connect(null, mapDispatchToProps)(BackgroundSideBar);
