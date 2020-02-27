@@ -36,9 +36,9 @@ class Canvas extends React.Component {
   }
 
   develop = () => {
-    const canvas = this.canvasRef.current; //dev
-    const arrayNum = [10, 20, 30, 40, 50, 97, 20, 86, 20, 13];
-    soundWaveThin(canvas, arrayNum);
+    // const canvas = this.canvasRef.current; //dev
+    // const arrayNum = [10, 1, 0, 0, 0, 97, 100, 86, 20, 13];
+    // soundWaveThin(canvas, arrayNum);
     // graphs.drawGraphInCanvas(canvas, arrayNum);
   };
   componentDidMount() {
@@ -106,7 +106,9 @@ class Canvas extends React.Component {
   reqFrameGraph = () => {
     const { cancelReqFrame } = this.state;
     const canvas = this.canvasRef.current;
-    graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
+    // graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
+    soundWaveThin(canvas, this.state.arrayOfAmplitud);
+
     var reqFrame = requestAnimationFrame(this.reqFrameGraph);
 
     if (cancelReqFrame) {

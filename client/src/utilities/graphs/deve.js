@@ -3,60 +3,52 @@ const drawCanvasThinSW = (canvas, arrAmplitud) => {
   var context = canvas.getContext("2d"),
     width = canvas.width,
     height = canvas.height;
-  //   alert();
-  //   console.log("Width: ", width, " Height: ", height);
-  // Save to restore original and avoid
-  // accumulative transalate and scale.
-  context.save();
 
   // Divided in 30 for the 30 seconds limit
-  var paddingLeftRight = 20; //PX
-  var distanceMovement = (width - paddingLeftRight) / 30;
-  var left = 0,
-    // Prpoportional to the canvas height
-    // removing 100px half from top and bottom
-    previousValue = drawU.scaleToRange(arrAmplitud[0], height - 100),
-    moveLeftBy = distanceMovement;
+  var paddingTopBottom = 20; //PX
+  var paddingLeftRight = 20;
 
-  // line in the middle of the canvas
+  // Fix 30 frequency amplitudes
+  var lineWidth = (width - paddingLeftRight) / 30;
+
+  // move the stroke to the beginning of the canvas
+  var initStroke = lineWidth / 2;
+  var left = initStroke + paddingLeftRight / 2;
+
+  // Draw middle line
   context.beginPath();
   context.moveTo(0, width / 2);
   context.lineTo(height, width / 2);
-  context.lineWidth = 10;
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(width / 2, 0 + 10);
-  context.lineTo(width / 2, height - 10);
   context.lineWidth = 1;
-  context.strokeStyle = "green";
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(10, 0);
-  context.lineTo(10, height);
-  context.lineWidth = 1;
-  context.strokeStyle = "green";
+  context.strokeStyle = "black";
   context.stroke();
 
   for (const stat in arrAmplitud) {
-    // var currentValue = arrAmplitud[stat];
-    // // Prpoportional to the canvas height
-    // // removing 100px half from top and bottom
-    // var proportionalHeight = drawU.scaleToRange(currentValue, height - 100);
-    // context.beginPath();
-    // context.moveTo(left, previousValue);
-    // context.lineTo(left + moveLeftBy, proportionalHeight);
-    // context.lineWidth = 7;
-    // context.lineCap = "round";
-    // var strokeColor = drawU.getRandomColor();
-    // context.strokeStyle = strokeColor;
-    // context.stroke();
-    // previousValue = proportionalHeight;
-    // left += moveLeftBy;
-  }
-  // Restore the Original canvas
-  context.restore();
-};
+    var currentValue = arrAmplitud[stat];
+    // Substract top and bottom padding
+    var lineHeight = drawU.scaleToRange(
+      currentValue,
+      height - paddingTopBottom
+    );
+    // Determine how much to push down to center
+    var pushDownTop = (height - lineHeight) / 2;
 
+    // Draw line
+    context.beginPath();
+    context.moveTo(left, pushDownTop);
+    context.lineTo(left, lineHeight + pushDownTop);
+    context.lineWidth = lineWidth;
+    context.strokeStyle = drawU.getRandomColor();
+    context.stroke();
+    left += lineWidth;
+
+    // Draw middle line
+    context.beginPath();
+    context.moveTo(0, width / 2);
+    context.lineTo(height, width / 2);
+    context.lineWidth = 1;
+    context.strokeStyle = "black";
+    context.stroke();
+  }
+};
 export default drawCanvasThinSW;
