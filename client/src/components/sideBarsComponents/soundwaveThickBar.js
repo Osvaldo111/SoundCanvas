@@ -1,8 +1,14 @@
 import React from "react";
 import "../../style/soundwaveThickBar.css";
 import { connect } from "react-redux";
+import SliderBttn from "../SliderButton";
+import { setSWThick } from "../../actions";
 
 class SoundwaveThickBar extends React.Component {
+  handleSliderValue = value => {
+    // console.log(value);
+    this.props.setSWThick(value);
+  };
   render() {
     const { display } = this.props;
     return (
@@ -10,8 +16,9 @@ class SoundwaveThickBar extends React.Component {
         className="soundwaveThickBar"
         style={{ display: display ? "flex" : "none" }}
       >
-        <div>
-          <p>Soundwave Thickness</p>
+        <div className="swThickBarTitle">Soundwave Thickness</div>
+        <div className="swThickBarSliCon">
+          <SliderBttn handleGetSliderValue={this.handleSliderValue} />
         </div>
       </div>
     );
@@ -19,5 +26,7 @@ class SoundwaveThickBar extends React.Component {
 }
 
 function mapStateToProps(state) {}
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setSWThick
+};
 export default connect(null, mapDispatchToProps)(SoundwaveThickBar);

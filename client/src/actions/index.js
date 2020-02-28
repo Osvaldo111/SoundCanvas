@@ -63,3 +63,12 @@ export const setSWColor = color => ({
   type: types.CANVAS_SOUNDWAVE_COLOR,
   color
 });
+
+/**
+ * Set the thickness of the soundwave
+ * @param {Int} value
+ */
+export const setSWThick = value => ({
+  type: types.SW_THICKNESS,
+  value
+});

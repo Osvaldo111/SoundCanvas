@@ -1,0 +1,36 @@
+.sliderBttnCtn {
+}
+
+.sliderBttnCtn > input {
+  -webkit-appearance: none;
+  width: 150px;
+  height: 5px;
+  border-radius: 5px;
+  background: #ffffff;
+  outline: none;
+  opacity: 0.9;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.sliderBttnCtn > input:hover {
+  opacity: 1;
+}
+
+.sliderBttnCtn > input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.sliderBttnCtn > input::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4caf50;
+  cursor: pointer;
+}
