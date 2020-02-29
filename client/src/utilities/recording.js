@@ -56,14 +56,15 @@ function calculateTheSoundAmplitud(arr) {
 
   let counterInArray = 0;
   let counterArray = dataArray.map((val, index) => {
-    if (index < 2) {
+    // Take the first two values greater then 100 'frequency'
+    if (index < 2 && val >= 90) {
       counterInArray++;
       return val;
     }
   });
 
   // Function reduce the array to a value
-  // Here, all the elements gets added to the first
+  // Here, all the elements get added to the first
   // element which acted as the accumulator initially.
   let Sum = counterArray.reduce((acum, val) => acum + val);
 
@@ -74,12 +75,16 @@ function calculateTheSoundAmplitud(arr) {
 /**
  * This function returns the input received into a  range of 0-100.
  * The function takes the integer 255 as the maximum value that
- * can be received by the frequency, thou is considered as the 100%
+ * can be received by the frequency, thou is considered as the 100%.
+ * And the 90 frequency as the 0 percent.
  * @param {int} num
  * https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/getByteFrequencyData
  */
 function amplitudToOneHundred(num) {
-  return Math.round((num / 255) * 100);
+  const minValue = 90; // Represents 0 percent
+  const maxValue = 255; // Represents 100 percent
+  return Math.round(((num - minValue) / (maxValue - minValue)) * 100);
+  // return Math.round((num / 255) * 100);
 }
 
 module.exports = {

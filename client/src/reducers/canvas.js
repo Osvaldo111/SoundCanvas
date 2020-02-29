@@ -19,20 +19,20 @@ const init = {
 export default function(state = init, action) {
   switch (action.type) {
     case CHANGE_CANVAS_WIDTH:
-      return { width: action.width };
+      return { ...state, width: action.width };
     case CANVAS_MOBILE_BTTN:
-      return { checkBttnPress: action.checkBttnPress };
+      return { ...state, checkBttnPress: action.checkBttnPress };
     case CANVAS_REDISPLAY_MOBILE_BTTN:
-      return { displayMobileBttn: action.displayMobileBttn };
+      return { ...state, displayMobileBttn: action.displayMobileBttn };
     case SIDEBAR_CANVAS_RESIZE:
-      return { sideBarWidth: action.width };
+      return { ...state, sideBarWidth: action.width };
     case CANVAS_COLOR:
-      return { canvasColor: action.color };
+      return { ...state, canvasColor: action.color };
     case CANVAS_SOUNDWAVE_COLOR:
-      return { swColor: action.color };
+      return { ...state, swColor: action.color };
     case SW_THICKNESS:
-      return { swThick: action.value };
+      return { ...state, swThick: action.value };
     default:
-      return state;
+      return { ...state };
   }
 }

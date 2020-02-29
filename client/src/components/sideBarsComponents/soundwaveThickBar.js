@@ -6,7 +6,6 @@ import { setSWThick } from "../../actions";
 
 class SoundwaveThickBar extends React.Component {
   handleSliderValue = value => {
-    // console.log(value);
     this.props.setSWThick(value);
   };
   render() {

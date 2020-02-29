@@ -8,6 +8,7 @@ import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
 import graphs from "../utilities/drawGraphClassic";
 import soundWaveThin from "../utilities/graphs/deve";
+import soundWaveThick from "../utilities/graphs/drawCanvasThick";
 import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
@@ -33,16 +34,26 @@ class Canvas extends React.Component {
       timeLeft: null,
       cancelReqFrame: false,
       canvasColor: "#fff",
-      soundWaveColor: "#000000"
+      soundWaveColor: "#000000",
+      stopRecording: false
     };
-    console.log(this.props);
   }
 
+  devArray = callback => {
+    var array = [];
+    for (let index = 0; index < 30; index++) {
+      array.push(Math.floor(Math.random() * 100) + 1);
+    }
+    callback(array);
+  };
+
   develop = () => {
-    // const canvas = this.canvasRef.current; //dev
-    // const arrayNum = [10, 1, 0, 0, 0, 97, 100, 86, 20, 13];
-    // soundWaveThin(canvas, arrayNum);
-    // graphs.drawGraphInCanvas(canvas, arrayNum);
+    // this.devArray(array => {
+    //   console.log("The array: ", array);
+    //   const canvas = this.canvasRef.current; //dev
+    //   const { arrayOfAmplitud } = this.state;
+    //   soundWaveThin(canvas, array, "red", 10);
+    // });
   };
   componentDidMount() {
     // Setting up the canvas when init.
@@ -56,6 +67,9 @@ class Canvas extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const canvas = this.canvasRef.current;
+    const { arrayOfAmplitud } = this.state;
+
     const currentMobileNavBttn = this.props.canvasProps.displayMobileBttn;
     const prevMobileNavBttn = prevProps.canvasProps.displayMobileBttn;
 
@@ -71,19 +85,13 @@ class Canvas extends React.Component {
     const currSWCol = this.props.canvasProps.swColor;
     const prevSWCol = prevProps.canvasProps.swColor;
 
+    const currSWThick = this.props.canvasProps.swThick;
+    const prevSWThick = prevProps.canvasProps.swThick;
+
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
     if (currentScreenWidth !== prevScreenWidth) {
-      const canvasContainer = {
-        width: this.props.windowSize.width,
-        height: this.props.windowSize.height
-      };
-      canvasSizes(canvasContainer, canvasSize => {
-        this.setState({
-          canvasWidth: canvasSize.width,
-          canvasHeight: canvasSize.height
-        });
-      });
+      this.redrawGraphOnResize(canvas, arrayOfAmplitud, currSWCol, currSWThick);
     }
 
     if (currentMobileNavBttn !== prevMobileNavBttn) {
@@ -101,12 +109,18 @@ class Canvas extends React.Component {
           width: this.props.windowSize.width,
           height: this.props.windowSize.height
         };
-
         canvasSizes(canvasContainer, canvasSize => {
-          this.setState({
-            canvasWidth: canvasSize.width - sideBarWidth,
-            canvasHeight: canvasSize.height - sideBarWidth
-          });
+          this.setState(
+            {
+              canvasWidth: canvasSize.width - sideBarWidth,
+              canvasHeight: canvasSize.height - sideBarWidth
+            },
+            () => {
+              if (arrayOfAmplitud.length !== 0) {
+                soundWaveThin(canvas, arrayOfAmplitud, currSWCol, currSWThick);
+              }
+            }
+          );
         });
       }
     }
@@ -119,20 +133,54 @@ class Canvas extends React.Component {
 
     if (currSWCol !== prevSWCol) {
       if (currSWCol) {
-        const canvas = this.canvasRef.current;
-
-        soundWaveThin(canvas, this.state.arrayOfAmplitud, currSWCol);
-
+        soundWaveThin(canvas, arrayOfAmplitud, currSWCol, currSWThick);
         this.setState({ soundWaveColor: currSWCol });
       }
     }
+
+    if (currSWThick !== prevSWThick) {
+      if (currSWThick) {
+        soundWaveThin(
+          canvas,
+          this.state.arrayOfAmplitud,
+          currSWCol,
+          currSWThick
+        );
+      }
+    }
   }
+
+  redrawGraphOnResize = (canvas, arrayOfAmplitud, swCol, swThick) => {
+    const canvasContainer = {
+      width: this.props.windowSize.width,
+      height: this.props.windowSize.height
+    };
+    canvasSizes(canvasContainer, canvasSize => {
+      this.setState(
+        {
+          canvasWidth: canvasSize.width,
+          canvasHeight: canvasSize.height
+        },
+        () => {
+          if (arrayOfAmplitud.length !== 0) {
+            soundWaveThin(canvas, arrayOfAmplitud, swCol, swThick);
+          }
+        }
+      );
+    });
+  };
   // Request to redraw the graph dynacmically.
   reqFrameGraph = () => {
     const { cancelReqFrame } = this.state;
     const canvas = this.canvasRef.current;
     // graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
-    soundWaveThin(canvas, this.state.arrayOfAmplitud);
+    soundWaveThin(canvas, this.state.arrayOfAmplitud, null, null, canvasEnd => {
+      this.setState({ stopRecording: true });
+
+      if (canvasEnd) {
+        this.setState({ stopRecording: true });
+      }
+    });
 
     var reqFrame = requestAnimationFrame(this.reqFrameGraph);
 
@@ -207,12 +255,11 @@ class Canvas extends React.Component {
    */
   connectionToStreamSource = (analyser, dataArray, audioCtx) => {
     var { timeLimitSeconds } = this.state;
-    var counterOfInterval = 0;
     var remainingTime = timeLimitSeconds;
 
-    // Repeat the function every second
+    // Repeat the function every 16 miliseconds
     var myInterval = setInterval(() => {
-      counterOfInterval++;
+      const { stopRecording } = this.state;
       var frequencyData = audioUtilities.getFrequencyData(analyser, dataArray);
 
       // Updating the array with the frequency amplitud
@@ -220,10 +267,10 @@ class Canvas extends React.Component {
       this.setState(
         { arrayOfAmplitud: frequencyData, timeLeft: --remainingTime },
         () => {
-          console.log("After setting the Array", frequencyData);
+          // console.log("After setting the Array", frequencyData.length);
         }
       );
-      if (counterOfInterval === timeLimitSeconds) {
+      if (stopRecording) {
         // Stop Recording
         audioCtx.close().then(() => {
           console.log("Stop Recording");
@@ -234,7 +281,7 @@ class Canvas extends React.Component {
           clearInterval(myInterval);
         });
       }
-    }, 1000);
+    }, 16);
   };
 
   pressBttn = () => {
@@ -289,6 +336,7 @@ class Canvas extends React.Component {
           />
         </div>
         <p>{timeLeft}</p>
+        <div onClick={this.develop}>Development</div>
       </div>
     );
   }

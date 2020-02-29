@@ -1,28 +1,27 @@
 import drawU from "../drawGraphClassic";
-const drawCanvasThinSW = (
+const drawCanvasThick = (
   canvas,
   arrAmplitud,
-  swColor = "#000000",
-  swThick = 1,
-  callback
+  swColor = "#78AB46",
+  swThick = 10
 ) => {
   var context = canvas.getContext("2d"),
     width = canvas.width,
     height = canvas.height;
-  context.clearRect(0, 0, width, height);
+
   var paddingTopBottom = 20; //PX
-  var paddingLeftRight = 0;
+  var paddingLeftRight = 20;
 
   // Fix 30 frequency amplitudes
-  // var lineWidth = Math.round((width - paddingLeftRight) / 30);
+  var lineWidth = Math.round((width - paddingLeftRight) / 30);
 
   // The soundwave width or thickness
-  // const swLineWidth = Math.round((lineWidth / 10) * swThick);
+  const swLineWidth = Math.round((lineWidth / 10) * swThick);
 
+  console.log("The line width: ", lineWidth);
   // move the stroke to the beginning of the canvas
-  // var initStroke = lineWidth / 2;
-  var left = 0;
-  var spacePosition = 1;
+  var initStroke = lineWidth / 2;
+  var left = initStroke + paddingLeftRight / 2;
 
   // Draw middle line
   context.beginPath();
@@ -33,6 +32,7 @@ const drawCanvasThinSW = (
   context.stroke();
 
   for (const stat in arrAmplitud) {
+    console.log(swLineWidth);
     var currentValue = arrAmplitud[stat];
     // Substract top and bottom padding
     var lineHeight = drawU.scaleToRange(
@@ -46,10 +46,10 @@ const drawCanvasThinSW = (
     context.beginPath();
     context.moveTo(left, pushDownTop);
     context.lineTo(left, lineHeight + pushDownTop);
-    context.lineWidth = swThick;
+    context.lineWidth = swLineWidth;
     context.strokeStyle = swColor;
     context.stroke();
-    left += spacePosition;
+    left += lineWidth;
 
     // Draw middle line
     context.beginPath();
@@ -59,10 +59,5 @@ const drawCanvasThinSW = (
     context.strokeStyle = "black";
     context.stroke();
   }
-
-  if (left >= width) {
-    const canvasEnd = true;
-    typeof callback === "function" && callback(canvasEnd);
-  }
 };
-export default drawCanvasThinSW;
+export default drawCanvasThick;

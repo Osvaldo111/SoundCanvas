@@ -13,7 +13,7 @@ class SliderBttn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 50
+      value: 1
     };
   }
 
@@ -30,7 +30,7 @@ class SliderBttn extends React.Component {
           <input
             type="range"
             min="1"
-            max="100"
+            max="10"
             value={this.state.value}
             id="myRange"
             onChange={this.handleChange}
