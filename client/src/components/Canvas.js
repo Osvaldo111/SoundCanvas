@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { changeCanvasWidth } from "../actions";
 import { isMobileBttnPress } from "../actions";
 import { displayMobileBttn } from "../actions";
+import { isResetBttn } from "../actions";
+import { isGraphCompleted } from "../actions";
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
-import graphs from "../utilities/drawGraphClassic";
 import soundWaveThin from "../utilities/graphs/deve";
-import soundWaveThick from "../utilities/graphs/drawCanvasThick";
 import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
@@ -31,7 +31,6 @@ class Canvas extends React.Component {
       arrayOfAmplitud: [],
       developmentVar: "example",
       timeLimitSeconds: 30,
-      timeLeft: null,
       cancelReqFrame: false,
       canvasColor: "#fff",
       soundWaveColor: "#000000",
@@ -87,6 +86,9 @@ class Canvas extends React.Component {
 
     const currSWThick = this.props.canvasProps.swThick;
     const prevSWThick = prevProps.canvasProps.swThick;
+
+    const currResetBttn = this.props.canvasProps.resetBttn;
+    const prevResetBttn = prevProps.canvasProps.resetBttn;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -148,7 +150,35 @@ class Canvas extends React.Component {
         );
       }
     }
+
+    if (currResetBttn !== prevResetBttn) {
+      if (currResetBttn) {
+        this.resetTheCanvas(canvas);
+        // Init
+        this.props.isResetBttn(false);
+        this.props.isGraphCompleted(false);
+      }
+    }
   }
+
+  /**
+   * Reset the drawing of the canvas.
+   */
+  resetTheCanvas = canvas => {
+    this.setState(
+      {
+        arrayOfAmplitud: [],
+        recorderBttn: false,
+        stopRecording: false,
+        cancelReqFrame: false,
+        canvasColor: "#fff"
+      },
+      () => {
+        const { arrayOfAmplitud } = this.state;
+        soundWaveThin(canvas, arrayOfAmplitud);
+      }
+    );
+  };
 
   redrawGraphOnResize = (canvas, arrayOfAmplitud, swCol, swThick) => {
     const canvasContainer = {
@@ -175,8 +205,6 @@ class Canvas extends React.Component {
     const canvas = this.canvasRef.current;
     // graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
     soundWaveThin(canvas, this.state.arrayOfAmplitud, null, null, canvasEnd => {
-      this.setState({ stopRecording: true });
-
       if (canvasEnd) {
         this.setState({ stopRecording: true });
       }
@@ -254,8 +282,8 @@ class Canvas extends React.Component {
    * frequency and time-domain analysis information.
    */
   connectionToStreamSource = (analyser, dataArray, audioCtx) => {
-    var { timeLimitSeconds } = this.state;
-    var remainingTime = timeLimitSeconds;
+    // Reset the array on utilities
+    audioUtilities.resetArrayOfAmplitud();
 
     // Repeat the function every 16 miliseconds
     var myInterval = setInterval(() => {
@@ -264,12 +292,9 @@ class Canvas extends React.Component {
 
       // Updating the array with the frequency amplitud
       // and the time left
-      this.setState(
-        { arrayOfAmplitud: frequencyData, timeLeft: --remainingTime },
-        () => {
-          // console.log("After setting the Array", frequencyData.length);
-        }
-      );
+      this.setState({
+        arrayOfAmplitud: frequencyData
+      });
       if (stopRecording) {
         // Stop Recording
         audioCtx.close().then(() => {
@@ -280,6 +305,9 @@ class Canvas extends React.Component {
         this.setState({ cancelReqFrame: true }, () => {
           clearInterval(myInterval);
         });
+
+        //The graph is completed.
+        this.props.isGraphCompleted(true);
       }
     }, 16);
   };
@@ -297,10 +325,10 @@ class Canvas extends React.Component {
   };
 
   isRecorderBttnPressed = () => {
-    const { recorderBttn, timeLimitSeconds } = this.state;
-    var time = timeLimitSeconds;
+    const { recorderBttn } = this.state;
     if (recorderBttn === false) {
-      this.setState({ recorderBttn: true, timeLeft: time }, () => {
+      this.setState({ recorderBttn: true }, () => {
+        console.log("The button is pressed");
         // recordAudio();
         this.processAudio(); // Development: Change on click
         this.reqFrameGraph();
@@ -308,9 +336,19 @@ class Canvas extends React.Component {
     }
   };
 
+  isResetBttnPressMobile = () => {
+    const { gfCompleted } = this.props.canvasProps;
+    if (gfCompleted) {
+      this.props.isResetBttn(true);
+    } else {
+      alert("Please, record something");
+    }
+  };
+
   render() {
-    const { canvasWidth, canvasHeight, canvasColor } = this.state;
-    const { displayBttn, timeLeft } = this.state;
+    const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
+    const { displayBttn } = this.state;
+    const { gfCompleted } = this.props.canvasProps;
     return (
       <div className="canvasContainer" ref={this.canvasContainerRef}>
         <canvas
@@ -322,10 +360,20 @@ class Canvas extends React.Component {
           style={{ backgroundColor: canvasColor }}
         ></canvas>
         <div className="recordBttn">
-          <img src={recordBttn} alt="" onClick={this.isRecorderBttnPressed} />
+          <img
+            src={recordBttn}
+            alt=""
+            onClick={this.isRecorderBttnPressed}
+            style={{ opacity: recorderBttn ? ".5" : "" }}
+          />
         </div>
         <div className="resetBttnMobile">
-          <button onClick={this.develop}>Reset</button>
+          <button
+            onClick={this.isResetBttnPressMobile}
+            style={{ opacity: gfCompleted ? "" : "0.6" }}
+          >
+            Reset
+          </button>
         </div>
         <div className="mobilBttn">
           <img
@@ -335,7 +383,6 @@ class Canvas extends React.Component {
             style={{ display: displayBttn ? "flex" : "none" }}
           />
         </div>
-        <p>{timeLeft}</p>
         <div onClick={this.develop}>Development</div>
       </div>
     );
@@ -352,7 +399,9 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   changeCanvasWidth,
   isMobileBttnPress,
-  displayMobileBttn
+  displayMobileBttn,
+  isResetBttn,
+  isGraphCompleted
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

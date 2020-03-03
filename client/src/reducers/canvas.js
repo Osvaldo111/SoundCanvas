@@ -5,6 +5,8 @@ import { SIDEBAR_CANVAS_RESIZE } from "../constants/ActionTypes";
 import { CANVAS_COLOR } from "../constants/ActionTypes";
 import { CANVAS_SOUNDWAVE_COLOR } from "../constants/ActionTypes";
 import { SW_THICKNESS } from "../constants/ActionTypes";
+import { RESET_CANVAS_BTTN } from "../constants/ActionTypes";
+import { GRAPH_COMPLETED } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
@@ -13,7 +15,9 @@ const init = {
   sideBarWidth: 0,
   canvasColor: "#fff",
   swColor: "#000000",
-  swThick: 1
+  swThick: 1,
+  resetBttn: false,
+  gfCompleted: false
 };
 
 export default function(state = init, action) {
@@ -32,6 +36,10 @@ export default function(state = init, action) {
       return { ...state, swColor: action.color };
     case SW_THICKNESS:
       return { ...state, swThick: action.value };
+    case RESET_CANVAS_BTTN:
+      return { ...state, resetBttn: action.checkBttn };
+    case GRAPH_COMPLETED:
+      return { ...state, gfCompleted: action.check };
     default:
       return { ...state };
   }

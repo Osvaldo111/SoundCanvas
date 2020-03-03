@@ -72,3 +72,21 @@ export const setSWThick = value => ({
   type: types.SW_THICKNESS,
   value
 });
+
+/**
+ * Check when the reset button is pressed.
+ * @param {Boolean} checkBttn
+ */
+export const isResetBttn = checkBttn => ({
+  type: types.RESET_CANVAS_BTTN,
+  checkBttn
+});
+
+/**
+ * Check when the drawing process is stopped.
+ * @param {Boolean} check
+ */
+export const isGraphCompleted = check => ({
+  type: types.GRAPH_COMPLETED,
+  check
+});

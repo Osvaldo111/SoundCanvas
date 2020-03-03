@@ -5,6 +5,7 @@
   position: absolute;
   transition: 0.5s;
   font-size: 10px;
+  z-index: 2; /*Avoid overlapping of bttn*/
 }
 
 .sideBarFirst {

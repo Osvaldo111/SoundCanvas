@@ -87,7 +87,15 @@ function amplitudToOneHundred(num) {
   // return Math.round((num / 255) * 100);
 }
 
+/**
+ * This function resets the array that stores
+ * the different frequencied already recorded.
+ */
+function resetArrayOfAmplitud() {
+  ARRAY_OF_AMPLITUD = [];
+}
 module.exports = {
   //   record: processAudio,
-  getFrequencyData: getFrequencyData
+  getFrequencyData: getFrequencyData,
+  resetArrayOfAmplitud
 };
