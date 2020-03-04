@@ -47,12 +47,12 @@ class Canvas extends React.Component {
   };
 
   develop = () => {
-    // this.devArray(array => {
-    //   console.log("The array: ", array);
-    //   const canvas = this.canvasRef.current; //dev
-    //   const { arrayOfAmplitud } = this.state;
-    //   soundWaveThin(canvas, array, "red", 10);
-    // });
+    this.devArray(array => {
+      console.log("The array: ", array);
+      const canvas = this.canvasRef.current; //dev
+      // const { arrayOfAmplitud } = this.state;
+      soundWaveThin(canvas, array, "red", 7, 1);
+    });
   };
   componentDidMount() {
     // Setting up the canvas when init.
@@ -89,6 +89,9 @@ class Canvas extends React.Component {
 
     const currResetBttn = this.props.canvasProps.resetBttn;
     const prevResetBttn = prevProps.canvasProps.resetBttn;
+
+    const currSWWidth = this.props.canvasProps.swWidth;
+    const prevSWWidth = prevProps.canvasProps.swWidth;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -135,7 +138,13 @@ class Canvas extends React.Component {
 
     if (currSWCol !== prevSWCol) {
       if (currSWCol) {
-        soundWaveThin(canvas, arrayOfAmplitud, currSWCol, currSWThick);
+        soundWaveThin(
+          canvas,
+          arrayOfAmplitud,
+          currSWCol,
+          currSWThick,
+          currSWWidth
+        );
         this.setState({ soundWaveColor: currSWCol });
       }
     }
@@ -146,9 +155,21 @@ class Canvas extends React.Component {
           canvas,
           this.state.arrayOfAmplitud,
           currSWCol,
-          currSWThick
+          currSWThick,
+          currSWWidth
         );
       }
+    }
+
+    if (currSWWidth !== prevSWWidth) {
+      console.log("Change on the width props.", currSWWidth);
+      soundWaveThin(
+        canvas,
+        this.state.arrayOfAmplitud,
+        currSWCol,
+        currSWThick,
+        currSWWidth
+      );
     }
 
     if (currResetBttn !== prevResetBttn) {
@@ -203,12 +224,18 @@ class Canvas extends React.Component {
   reqFrameGraph = () => {
     const { cancelReqFrame } = this.state;
     const canvas = this.canvasRef.current;
-    // graphs.drawGraphInCanvas(canvas, this.state.arrayOfAmplitud);
-    soundWaveThin(canvas, this.state.arrayOfAmplitud, null, null, canvasEnd => {
-      if (canvasEnd) {
-        this.setState({ stopRecording: true });
+    soundWaveThin(
+      canvas,
+      this.state.arrayOfAmplitud,
+      null,
+      null,
+      null,
+      canvasEnd => {
+        if (canvasEnd) {
+          this.setState({ stopRecording: true });
+        }
       }
-    });
+    );
 
     var reqFrame = requestAnimationFrame(this.reqFrameGraph);
 

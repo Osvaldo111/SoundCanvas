@@ -90,3 +90,12 @@ export const isGraphCompleted = check => ({
   type: types.GRAPH_COMPLETED,
   check
 });
+
+/**
+ * Set the width of the sound wave.
+ * @param {Int} value
+ */
+export const setSWWidth = value => ({
+  type: types.SW_WIDTH,
+  value
+});

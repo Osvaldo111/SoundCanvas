@@ -7,6 +7,7 @@ import { CANVAS_SOUNDWAVE_COLOR } from "../constants/ActionTypes";
 import { SW_THICKNESS } from "../constants/ActionTypes";
 import { RESET_CANVAS_BTTN } from "../constants/ActionTypes";
 import { GRAPH_COMPLETED } from "../constants/ActionTypes";
+import { SW_WIDTH } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
@@ -16,6 +17,7 @@ const init = {
   canvasColor: "#fff",
   swColor: "#000000",
   swThick: 1,
+  swWidth: 1,
   resetBttn: false,
   gfCompleted: false
 };
@@ -40,6 +42,8 @@ export default function(state = init, action) {
       return { ...state, resetBttn: action.checkBttn };
     case GRAPH_COMPLETED:
       return { ...state, gfCompleted: action.check };
+    case SW_WIDTH:
+      return { ...state, swWidth: action.value };
     default:
       return { ...state };
   }

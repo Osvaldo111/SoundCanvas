@@ -4,25 +4,23 @@ const drawCanvasThinSW = (
   arrAmplitud,
   swColor = "#000000",
   swThick = 1,
+  swWidth = 1,
   callback
 ) => {
+  if (swColor === null) swColor = "#000000";
+  if (swThick === null) swThick = 1;
+  if (swWidth === null) swWidth = 1;
+
   var context = canvas.getContext("2d"),
     width = canvas.width,
     height = canvas.height;
   context.clearRect(0, 0, width, height);
+
   var paddingTopBottom = 20; //PX
   var paddingLeftRight = 0;
 
-  // Fix 30 frequency amplitudes
-  // var lineWidth = Math.round((width - paddingLeftRight) / 30);
-
-  // The soundwave width or thickness
-  // const swLineWidth = Math.round((lineWidth / 10) * swThick);
-
-  // move the stroke to the beginning of the canvas
-  // var initStroke = lineWidth / 2;
   var left = 0;
-  var spacePosition = 1;
+  var spacePosition = swWidth;
 
   // Draw middle line
   context.beginPath();
@@ -49,7 +47,8 @@ const drawCanvasThinSW = (
     context.lineWidth = swThick;
     context.strokeStyle = swColor;
     context.stroke();
-    left += spacePosition;
+    // Parse to avoid concadenation
+    left += parseInt(spacePosition);
 
     // Draw middle line
     context.beginPath();
