@@ -23,6 +23,7 @@ class Canvas extends React.Component {
     super(props);
     this.canvasRef = React.createRef();
     this.canvasContainerRef = React.createRef();
+    this.inputTxtRef = React.createRef();
     this.state = {
       displayBttn: true,
       canvasWidth: "",
@@ -34,7 +35,11 @@ class Canvas extends React.Component {
       cancelReqFrame: false,
       canvasColor: "#fff",
       soundWaveColor: "#000000",
-      stopRecording: false
+      stopRecording: false,
+      pos1: 0,
+      pos2: 0,
+      pos3: 0,
+      pos4: 0
     };
   }
 
@@ -47,12 +52,23 @@ class Canvas extends React.Component {
   };
 
   develop = () => {
-    this.devArray(array => {
-      console.log("The array: ", array);
-      const canvas = this.canvasRef.current; //dev
-      // const { arrayOfAmplitud } = this.state;
-      soundWaveThin(canvas, array, "red", 7, 1);
-    });
+    // this.devArray(array => {
+    //   console.log("The array: ", array);
+    //   const canvas = this.canvasRef.current; //dev
+    //   // const { arrayOfAmplitud } = this.state;
+    //   soundWaveThin(canvas, array, "red", 7, 1);
+    // });
+
+    const canvas = this.canvasRef.current;
+    var ctx = canvas.getContext("2d");
+    ctx.font = "30px Arial";
+    var text = "Hello World";
+    const measureText = Math.round(ctx.measureText(text).width);
+    const canvasWidth = canvas.width;
+    const centerTxtWid = canvasWidth / 2 - measureText / 2;
+
+    console.log(centerTxtWid);
+    ctx.fillText(text, centerTxtWid, 600);
   };
   componentDidMount() {
     // Setting up the canvas when init.
@@ -372,20 +388,74 @@ class Canvas extends React.Component {
     }
   };
 
+  dragElement = evt => {
+    evt = evt || window.event;
+    // evt.preventDefault();
+    // get the mouse cursor position at startup:
+    this.setState({
+      pos3: evt.clientX,
+      pos4: evt.clientY
+    });
+    const canvas = this.canvasRef.current;
+    const inputText = this.inputTxtRef.current;
+    inputText.onmouseup = this.closeDragElement;
+    canvas.onmousemove = this.elementDrag;
+  };
+
+  elementDrag = evt => {
+    evt = evt || window.event;
+    evt.preventDefault();
+    // calculate the new cursor position:
+    this.setState(
+      {
+        pos1: this.state.pos3 - evt.clientX,
+        pos2: this.state.pos4 - evt.clientY,
+        pos3: evt.clientX,
+        pos4: evt.clientY
+      },
+      () => {
+        const { pos1, pos2 } = this.state;
+        const txtInput = this.inputTxtRef.current;
+        txtInput.style.top = txtInput.offsetTop - pos2 + "px";
+        txtInput.style.left = txtInput.offsetLeft - pos1 + "px";
+      }
+    );
+  };
+
+  closeDragElement = () => {
+    // alert("Close");
+    const canvas = this.canvasRef.current;
+    const inputText = this.inputTxtRef.current;
+    inputText.onmouseup = null;
+    canvas.onmousemove = null;
+    // document.onmouseup = null;
+    // document.onmousemove = null;
+  };
+
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
     const { displayBttn } = this.state;
     const { gfCompleted } = this.props.canvasProps;
     return (
       <div className="canvasContainer" ref={this.canvasContainerRef}>
-        <canvas
-          className="canvas"
-          width={canvasWidth}
-          height={canvasHeight}
-          /* style={{ width: canvasWidth, height: canvasHeight }} */
-          ref={this.canvasRef}
-          style={{ backgroundColor: canvasColor }}
-        ></canvas>
+        <div className="canvasSection">
+          <canvas
+            className="canvas"
+            width={canvasWidth}
+            height={canvasHeight}
+            /* style={{ width: canvasWidth, height: canvasHeight }} */
+            ref={this.canvasRef}
+            style={{ backgroundColor: canvasColor }}
+          ></canvas>
+          <input
+            type="text"
+            onMouseDown={this.dragElement}
+            className="inputTextCanvas"
+            ref={this.inputTxtRef}
+            placeholder={"TEXT INSIDE"}
+          />
+        </div>
+
         <div className="recordBttn">
           <img
             src={recordBttn}
