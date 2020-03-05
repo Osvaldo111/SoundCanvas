@@ -39,7 +39,8 @@ class Canvas extends React.Component {
       pos1: 0,
       pos2: 0,
       pos3: 0,
-      pos4: 0
+      pos4: 0,
+      inputValue: "TEXT HERE"
     };
   }
 
@@ -432,6 +433,25 @@ class Canvas extends React.Component {
     // document.onmousemove = null;
   };
 
+  resizeInputField = () => {
+    // var fontSize = 10;
+    const txtInput = this.inputTxtRef.current;
+    const valLength = txtInput.value.length;
+    if (valLength > 5) txtInput.size = txtInput.value.length;
+    // txtInput.style.fontSize = valLength + "px";
+
+    // txtInput.style.width = valLength * fontSize + "px";
+  };
+
+  handleChange = event => {
+    this.setState({ inputValue: event.target.value });
+  };
+
+  readOnly = () => {
+    //  alert();
+    const txtInput = this.inputTxtRef.current;
+    console.log(txtInput.disabled);
+  };
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
     const { displayBttn } = this.state;
@@ -452,7 +472,10 @@ class Canvas extends React.Component {
             onMouseDown={this.dragElement}
             className="inputTextCanvas"
             ref={this.inputTxtRef}
-            placeholder={"TEXT INSIDE"}
+            value={this.state.inputValue}
+            onKeyDown={this.resizeInputField}
+            onChange={this.handleChange}
+            onDoubleClick={this.readOnly}
           />
         </div>
 

@@ -15,6 +15,7 @@
 .canvasSection {
   position: relative;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 /* --Mobile Bttn -- */
@@ -85,6 +86,12 @@
   border-width: 0;
   height: 20px;
   padding-left: 3px;
+  height: auto;
+  text-align: center;
+  /* transition: width 0.25s; */
+}
+input[type="text"] {
+  /* font-size: 44px; */
 }
 
 .inputTextCanvas:focus {
