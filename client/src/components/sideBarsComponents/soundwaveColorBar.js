@@ -9,7 +9,6 @@ class SoundwaveColorBar extends React.Component {
   }
 
   handleChangeComplete = color => {
-    console.log(color, "  **Sound Wave");
     this.props.setSWColor(color);
   };
 

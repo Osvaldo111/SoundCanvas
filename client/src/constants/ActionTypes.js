@@ -9,3 +9,6 @@ export const SW_THICKNESS = "SET_SW_THICKNESS";
 export const RESET_CANVAS_BTTN = "RESET_BTTN_CANVAS";
 export const GRAPH_COMPLETED = "CHECK_GRAPH_COMPLETED";
 export const SW_WIDTH = "SET_SW_WIDTH";
+export const FONT_SIZE = "SET_FONT_SIZE";
+export const FONT_COLOR = "SET_FONT_COLOR";
+export const ADD_TXT_CANVAS = "CANVAS_TEXT";

@@ -12,6 +12,7 @@ import soundWaveThin from "../utilities/graphs/deve";
 import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
+import { dragObject } from "../utilities/dragObject";
 /**
  * author: Osvaldo Carrillo
  * Date: 02/08/2020
@@ -36,12 +37,10 @@ class Canvas extends React.Component {
       canvasColor: "#fff",
       soundWaveColor: "#000000",
       stopRecording: false,
-      pos1: 0,
-      pos2: 0,
-      pos3: 0,
-      pos4: 0,
-      inputValue: "TEXT HERE"
+      inputValue: "TEXT HERE",
+      displayText: false
     };
+    console.log(this.props);
   }
 
   devArray = callback => {
@@ -109,6 +108,9 @@ class Canvas extends React.Component {
 
     const currSWWidth = this.props.canvasProps.swWidth;
     const prevSWWidth = prevProps.canvasProps.swWidth;
+
+    const currCanvasTxt = this.props.canvasProps.canvasTxt;
+    const prevCanvasTxt = prevProps.canvasProps.canvasTxt;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -195,6 +197,14 @@ class Canvas extends React.Component {
         // Init
         this.props.isResetBttn(false);
         this.props.isGraphCompleted(false);
+      }
+    }
+
+    if (currCanvasTxt !== prevCanvasTxt) {
+      if (currCanvasTxt) {
+        this.setState({ displayText: true });
+      } else {
+        this.setState({ displayText: false });
       }
     }
   }
@@ -389,73 +399,27 @@ class Canvas extends React.Component {
     }
   };
 
-  dragElement = evt => {
-    evt = evt || window.event;
-    // evt.preventDefault();
-    // get the mouse cursor position at startup:
-    this.setState({
-      pos3: evt.clientX,
-      pos4: evt.clientY
-    });
-    const canvas = this.canvasRef.current;
-    const inputText = this.inputTxtRef.current;
-    inputText.onmouseup = this.closeDragElement;
-    canvas.onmousemove = this.elementDrag;
-  };
-
-  elementDrag = evt => {
-    evt = evt || window.event;
-    evt.preventDefault();
-    // calculate the new cursor position:
-    this.setState(
-      {
-        pos1: this.state.pos3 - evt.clientX,
-        pos2: this.state.pos4 - evt.clientY,
-        pos3: evt.clientX,
-        pos4: evt.clientY
-      },
-      () => {
-        const { pos1, pos2 } = this.state;
-        const txtInput = this.inputTxtRef.current;
-        txtInput.style.top = txtInput.offsetTop - pos2 + "px";
-        txtInput.style.left = txtInput.offsetLeft - pos1 + "px";
-      }
-    );
-  };
-
-  closeDragElement = () => {
-    // alert("Close");
-    const canvas = this.canvasRef.current;
-    const inputText = this.inputTxtRef.current;
-    inputText.onmouseup = null;
-    canvas.onmousemove = null;
-    // document.onmouseup = null;
-    // document.onmousemove = null;
-  };
-
   resizeInputField = () => {
-    // var fontSize = 10;
     const txtInput = this.inputTxtRef.current;
     const valLength = txtInput.value.length;
     if (valLength > 5) txtInput.size = txtInput.value.length;
-    // txtInput.style.fontSize = valLength + "px";
-
-    // txtInput.style.width = valLength * fontSize + "px";
   };
 
   handleChange = event => {
     this.setState({ inputValue: event.target.value });
   };
 
-  readOnly = () => {
-    //  alert();
-    const txtInput = this.inputTxtRef.current;
-    console.log(txtInput.disabled);
+  dragElementInput = event => {
+    const canvas = this.canvasRef.current;
+    const inputText = this.inputTxtRef.current;
+    dragObject(event, inputText, canvas);
   };
+
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
     const { displayBttn } = this.state;
     const { gfCompleted } = this.props.canvasProps;
+
     return (
       <div className="canvasContainer" ref={this.canvasContainerRef}>
         <div className="canvasSection">
@@ -463,19 +427,20 @@ class Canvas extends React.Component {
             className="canvas"
             width={canvasWidth}
             height={canvasHeight}
-            /* style={{ width: canvasWidth, height: canvasHeight }} */
             ref={this.canvasRef}
             style={{ backgroundColor: canvasColor }}
           ></canvas>
           <input
             type="text"
-            onMouseDown={this.dragElement}
+            onMouseDown={this.dragElementInput}
             className="inputTextCanvas"
             ref={this.inputTxtRef}
             value={this.state.inputValue}
             onKeyDown={this.resizeInputField}
             onChange={this.handleChange}
-            onDoubleClick={this.readOnly}
+            style={{
+              display: this.state.displayText ? "inline-block" : "none"
+            }}
           />
         </div>
 

@@ -8,6 +8,9 @@ import { SW_THICKNESS } from "../constants/ActionTypes";
 import { RESET_CANVAS_BTTN } from "../constants/ActionTypes";
 import { GRAPH_COMPLETED } from "../constants/ActionTypes";
 import { SW_WIDTH } from "../constants/ActionTypes";
+import { FONT_SIZE } from "../constants/ActionTypes";
+import { FONT_COLOR } from "../constants/ActionTypes";
+import { ADD_TXT_CANVAS } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
@@ -19,7 +22,10 @@ const init = {
   swThick: 1,
   swWidth: 1,
   resetBttn: false,
-  gfCompleted: false
+  gfCompleted: false,
+  fontSize: 8,
+  fontColor: "black",
+  canvasTxt: false
 };
 
 export default function(state = init, action) {
@@ -44,6 +50,12 @@ export default function(state = init, action) {
       return { ...state, gfCompleted: action.check };
     case SW_WIDTH:
       return { ...state, swWidth: action.value };
+    case FONT_SIZE:
+      return { ...state, fontSize: action.value };
+    case FONT_COLOR:
+      return { ...state, fontColor: action.color };
+    case ADD_TXT_CANVAS:
+      return { ...state, canvasTxt: action.value };
     default:
       return { ...state };
   }

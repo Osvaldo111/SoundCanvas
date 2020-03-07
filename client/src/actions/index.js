@@ -99,3 +99,31 @@ export const setSWWidth = value => ({
   type: types.SW_WIDTH,
   value
 });
+
+/**
+ * Set the font size of the text
+ * @param {Int} value
+ */
+export const setFontSize = value => ({
+  type: types.FONT_SIZE,
+  value
+});
+
+/**
+ * Set the font color
+ * @param {String} color
+ */
+export const setFontColor = color => ({
+  type: types.FONT_COLOR,
+  color
+});
+
+/**
+ * Check if the user wants to add text to
+ * the canvas
+ * @param {Boolean} value
+ */
+export const isTxtCanvas = value => ({
+  type: types.ADD_TXT_CANVAS,
+  value
+});

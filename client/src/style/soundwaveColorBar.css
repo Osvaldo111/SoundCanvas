@@ -9,4 +9,12 @@
 }
 .swbarTitle {
   font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.txtBarColFnt {
+  margin: 10px 0 10px 0;
+}
+.txtBarColFnt > div {
+  margin-bottom: 10px;
 }
