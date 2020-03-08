@@ -6,6 +6,8 @@ export const dragObject = (event, element, elmtBound) => {
   // get the mouse cursor position at startup:
   pos3 = event.clientX;
   pos4 = event.clientY;
+  console.log("The Client X:", pos3);
+  console.log("The Client Y:", pos4);
 
   element.onmouseup = closeDragElement;
   // call a function whenever the cursor moves:
@@ -21,6 +23,9 @@ export const dragObject = (event, element, elmtBound) => {
     pos4 = event.clientY;
 
     // set the element's new position:
+    element.style.marginLeft = 0;
+    element.style.marginRight = 0;
+    // element.style.right = "auto";
     element.style.top = element.offsetTop - pos2 + "px";
     element.style.left = element.offsetLeft - pos1 + "px";
   }

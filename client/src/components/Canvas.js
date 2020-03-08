@@ -112,10 +112,17 @@ class Canvas extends React.Component {
     const currCanvasTxt = this.props.canvasProps.canvasTxt;
     const prevCanvasTxt = prevProps.canvasProps.canvasTxt;
 
+    const currTxtSize = this.props.canvasProps.fontSize;
+    const prevTxtSize = prevProps.canvasProps.fontSize;
+
+    const currTxtColor = this.props.canvasProps.fontColor;
+    const prevTxtColor = prevProps.canvasProps.fontColor;
+
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
     if (currentScreenWidth !== prevScreenWidth) {
       this.redrawGraphOnResize(canvas, arrayOfAmplitud, currSWCol, currSWThick);
+      this.positionInutTxtOnResize();
     }
 
     if (currentMobileNavBttn !== prevMobileNavBttn) {
@@ -181,7 +188,6 @@ class Canvas extends React.Component {
     }
 
     if (currSWWidth !== prevSWWidth) {
-      console.log("Change on the width props.", currSWWidth);
       soundWaveThin(
         canvas,
         this.state.arrayOfAmplitud,
@@ -205,6 +211,20 @@ class Canvas extends React.Component {
         this.setState({ displayText: true });
       } else {
         this.setState({ displayText: false });
+      }
+    }
+
+    if (currTxtSize !== prevTxtSize) {
+      if (currCanvasTxt) {
+        const inputTxt = this.inputTxtRef.current;
+        inputTxt.style.fontSize = currTxtSize + "px";
+      }
+    }
+
+    if (currTxtColor !== prevTxtColor) {
+      if (currCanvasTxt) {
+        const inputTxt = this.inputTxtRef.current;
+        inputTxt.style.color = currTxtColor;
       }
     }
   }
@@ -413,6 +433,12 @@ class Canvas extends React.Component {
     const canvas = this.canvasRef.current;
     const inputText = this.inputTxtRef.current;
     dragObject(event, inputText, canvas);
+  };
+
+  positionInutTxtOnResize = () => {
+    const inputTxt = this.inputTxtRef.current;
+    inputTxt.style.top = "45%";
+    inputTxt.style.left = "45%";
   };
 
   render() {

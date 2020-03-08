@@ -32,7 +32,6 @@ class TextBar extends React.Component {
   };
 
   handleChangeFontSize = value => {
-    console.log("The font Size:", value);
     this.props.setFontSize(value);
   };
 
