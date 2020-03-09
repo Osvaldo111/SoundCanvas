@@ -11,6 +11,7 @@ import { SW_WIDTH } from "../constants/ActionTypes";
 import { FONT_SIZE } from "../constants/ActionTypes";
 import { FONT_COLOR } from "../constants/ActionTypes";
 import { ADD_TXT_CANVAS } from "../constants/ActionTypes";
+import { DOWNLOAD_CANVAS } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
@@ -25,7 +26,8 @@ const init = {
   gfCompleted: false,
   fontSize: 8,
   fontColor: "black",
-  canvasTxt: false
+  canvasTxt: false,
+  downloadCanvas: false
 };
 
 export default function(state = init, action) {
@@ -56,6 +58,8 @@ export default function(state = init, action) {
       return { ...state, fontColor: action.color };
     case ADD_TXT_CANVAS:
       return { ...state, canvasTxt: action.value };
+    case DOWNLOAD_CANVAS:
+      return { ...state, downloadCanvas: action.value };
     default:
       return { ...state };
   }

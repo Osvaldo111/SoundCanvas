@@ -1,3 +1,10 @@
+/**
+ * This function is designed to make a node
+ * element draggable between an element boundary.
+ * @param {Object} event
+ * @param {Node} element
+ * @param {Node} elmtBound
+ */
 export const dragObject = (event, element, elmtBound) => {
   var pos1 = 0,
     pos2 = 0,

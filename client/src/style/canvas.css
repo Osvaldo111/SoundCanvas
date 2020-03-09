@@ -33,15 +33,17 @@
 
 /* ---Record Section---- */
 .recordBttn {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 /* ---Record Section---- */
 
 /* ---Reset Bttn Mobile--- */
 
 .resetBttnMobile {
-  margin-top: 20px;
+  margin-top: 10px;
 }
+
+.mobileBttnEffect,
 .resetBttnMobile > button {
   background-color: #55595c;
   border: none;
@@ -52,8 +54,48 @@
   color: white;
   font-size: 16px;
   font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
 }
 /* ---Reset Bttn Mobile--- */
+
+/* ---Download Bttn Mobile--- */
+.mobileBttnEffect {
+  overflow: hidden;
+  position: relative;
+  margin-top: 10px;
+  /* padding: 10px 60px; */
+}
+
+.mobileBttnEffect p {
+  position: relative;
+  transition: all 0.45s ease-Out;
+}
+
+#spinAnimMob {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  left: 20px;
+  top: 20px;
+  transform: rotate(0deg);
+  background: none;
+  position: absolute;
+  transition: all 0.5s ease-Out;
+}
+
+.mobileBttnEffect:hover #spinAnimMob {
+  width: 200%;
+  height: 500%;
+  opacity: 1;
+  left: -85px;
+  top: -70px;
+  background: #ffffff;
+  transform: rotate(85deg);
+}
+
+.mobileBttnEffect:hover p {
+  color: #2d3142;
+}
 
 /*
 * Small devices (Galazy S5 or Iphone 5/SE )

@@ -1,12 +1,15 @@
 import drawU from "../drawGraphClassic";
 const drawCanvasThinSW = (
   canvas,
+  backgroundColor,
   arrAmplitud,
   swColor = "#000000",
   swThick = 1,
   swWidth = 1,
   callback
 ) => {
+  console.log(backgroundColor);
+  if (backgroundColor === null) backgroundColor = "#fff";
   if (swColor === null) swColor = "#000000";
   if (swThick === null) swThick = 1;
   if (swWidth === null) swWidth = 1;
@@ -15,6 +18,9 @@ const drawCanvasThinSW = (
     width = canvas.width,
     height = canvas.height;
   context.clearRect(0, 0, width, height);
+
+  context.fillStyle = backgroundColor;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
   var paddingTopBottom = 20; //PX
   var paddingLeftRight = 0;

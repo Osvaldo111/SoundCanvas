@@ -127,3 +127,13 @@ export const isTxtCanvas = value => ({
   type: types.ADD_TXT_CANVAS,
   value
 });
+
+/**
+ * Check when the user presses the download
+ * bttn
+ * @param {Boolean} value
+ */
+export const isDownloadCanvas = value => ({
+  type: types.DOWNLOAD_CANVAS,
+  value
+});

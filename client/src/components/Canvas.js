@@ -6,6 +6,7 @@ import { isMobileBttnPress } from "../actions";
 import { displayMobileBttn } from "../actions";
 import { isResetBttn } from "../actions";
 import { isGraphCompleted } from "../actions";
+import { isDownloadCanvas } from "../actions";
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
 import soundWaveThin from "../utilities/graphs/deve";
@@ -13,6 +14,7 @@ import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
 import { dragObject } from "../utilities/dragObject";
+import { downloadCanvas } from "../utilities/downloadCanvas";
 /**
  * author: Osvaldo Carrillo
  * Date: 02/08/2020
@@ -25,6 +27,7 @@ class Canvas extends React.Component {
     this.canvasRef = React.createRef();
     this.canvasContainerRef = React.createRef();
     this.inputTxtRef = React.createRef();
+    this.downloadCavRef = React.createRef();
     this.state = {
       displayBttn: true,
       canvasWidth: "",
@@ -66,8 +69,6 @@ class Canvas extends React.Component {
     const measureText = Math.round(ctx.measureText(text).width);
     const canvasWidth = canvas.width;
     const centerTxtWid = canvasWidth / 2 - measureText / 2;
-
-    console.log(centerTxtWid);
     ctx.fillText(text, centerTxtWid, 600);
   };
   componentDidMount() {
@@ -118,13 +119,23 @@ class Canvas extends React.Component {
     const currTxtColor = this.props.canvasProps.fontColor;
     const prevTxtColor = prevProps.canvasProps.fontColor;
 
+    const currDownloadCanvas = this.props.canvasProps.downloadCanvas;
+    const prevDownLoadCanvas = prevProps.canvasProps.downloadCanvas;
+
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
     if (currentScreenWidth !== prevScreenWidth) {
-      this.redrawGraphOnResize(canvas, arrayOfAmplitud, currSWCol, currSWThick);
+      this.redrawGraphOnResize(
+        canvas,
+        currCanvasCol,
+        arrayOfAmplitud,
+        currSWCol,
+        currSWThick
+      );
       this.positionInutTxtOnResize();
     }
 
+    //Listen change to display mobile menu
     if (currentMobileNavBttn !== prevMobileNavBttn) {
       if (currentMobileNavBttn) {
         this.setState({ displayBttn: true });
@@ -133,6 +144,7 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen when sideBar is display to resize the canvas
     if (currentSideBarWith !== prevSideBarWith) {
       if (currentSideBarWith !== undefined) {
         const sideBarWidth = this.props.canvasProps.sideBarWidth;
@@ -148,7 +160,13 @@ class Canvas extends React.Component {
             },
             () => {
               if (arrayOfAmplitud.length !== 0) {
-                soundWaveThin(canvas, arrayOfAmplitud, currSWCol, currSWThick);
+                soundWaveThin(
+                  canvas,
+                  currCanvasCol,
+                  arrayOfAmplitud,
+                  currSWCol,
+                  currSWThick
+                );
               }
             }
           );
@@ -156,16 +174,29 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to the change of background color on canvas
     if (currCanvasCol !== prevCanvasCol) {
-      if (currCanvasCol) {
-        this.setState({ canvasColor: currCanvasCol });
+      const { gfCompleted } = this.props.canvasProps;
+      if (gfCompleted) {
+        console.log(currCanvasCol);
+        soundWaveThin(
+          canvas,
+          currCanvasCol,
+          arrayOfAmplitud,
+          currSWCol,
+          currSWThick,
+          currSWWidth
+        );
       }
+      this.setState({ canvasColor: currCanvasCol });
     }
 
+    // Listen to change of soundwave color on canvas
     if (currSWCol !== prevSWCol) {
       if (currSWCol) {
         soundWaveThin(
           canvas,
+          currCanvasCol,
           arrayOfAmplitud,
           currSWCol,
           currSWThick,
@@ -175,10 +206,12 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to change of soundwave thickness
     if (currSWThick !== prevSWThick) {
       if (currSWThick) {
         soundWaveThin(
           canvas,
+          currCanvasCol,
           this.state.arrayOfAmplitud,
           currSWCol,
           currSWThick,
@@ -187,9 +220,11 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to change of the soundwave width
     if (currSWWidth !== prevSWWidth) {
       soundWaveThin(
         canvas,
+        currCanvasCol,
         this.state.arrayOfAmplitud,
         currSWCol,
         currSWThick,
@@ -197,6 +232,7 @@ class Canvas extends React.Component {
       );
     }
 
+    // Listen to change of reset button
     if (currResetBttn !== prevResetBttn) {
       if (currResetBttn) {
         this.resetTheCanvas(canvas);
@@ -206,6 +242,7 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to add text to canvas
     if (currCanvasTxt !== prevCanvasTxt) {
       if (currCanvasTxt) {
         this.setState({ displayText: true });
@@ -214,6 +251,7 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to change font size text on canvas
     if (currTxtSize !== prevTxtSize) {
       if (currCanvasTxt) {
         const inputTxt = this.inputTxtRef.current;
@@ -221,10 +259,22 @@ class Canvas extends React.Component {
       }
     }
 
+    // Listen to change color text on canvas
     if (currTxtColor !== prevTxtColor) {
       if (currCanvasTxt) {
         const inputTxt = this.inputTxtRef.current;
         inputTxt.style.color = currTxtColor;
+      }
+    }
+
+    // Listen to download the canvas
+    if (currDownloadCanvas !== prevDownLoadCanvas) {
+      if (currDownloadCanvas) {
+        this.props.isDownloadCanvas(false); // Init
+        const nodeElm = this.downloadCavRef.current;
+        downloadCanvas(canvas, nodeElm, () => {
+          nodeElm.click();
+        });
       }
     }
   }
@@ -248,7 +298,13 @@ class Canvas extends React.Component {
     );
   };
 
-  redrawGraphOnResize = (canvas, arrayOfAmplitud, swCol, swThick) => {
+  redrawGraphOnResize = (
+    canvas,
+    canvasCol,
+    arrayOfAmplitud,
+    swCol,
+    swThick
+  ) => {
     const canvasContainer = {
       width: this.props.windowSize.width,
       height: this.props.windowSize.height
@@ -261,7 +317,7 @@ class Canvas extends React.Component {
         },
         () => {
           if (arrayOfAmplitud.length !== 0) {
-            soundWaveThin(canvas, arrayOfAmplitud, swCol, swThick);
+            soundWaveThin(canvas, canvasCol, arrayOfAmplitud, swCol, swThick);
           }
         }
       );
@@ -273,6 +329,7 @@ class Canvas extends React.Component {
     const canvas = this.canvasRef.current;
     soundWaveThin(
       canvas,
+      this.state.canvasColor,
       this.state.arrayOfAmplitud,
       null,
       null,
@@ -486,6 +543,24 @@ class Canvas extends React.Component {
             Reset
           </button>
         </div>
+        <a
+          className="mobileBttnEffect"
+          id="download"
+          download="myImage.jpg"
+          onClick={this.isDownloadBttnPress}
+        >
+          <div id="spinAnimMob"></div>
+          <p>send</p>
+        </a>
+        <a
+          className="mobileBttnEffect"
+          id="download"
+          download="myImage.jpg"
+          onClick={this.isDownloadBttnPress}
+        >
+          <div id="spinAnimMob"></div>
+          <p>Download</p>
+        </a>
         <div className="mobilBttn">
           <img
             onClick={this.isMobileBttnPress}
@@ -495,6 +570,10 @@ class Canvas extends React.Component {
           />
         </div>
         <div onClick={this.develop}>Development</div>
+        {/* This is just a helper syntax to download the canvas */}
+        <div style={{ display: "none" }}>
+          <a href="" ref={this.downloadCavRef} download="myImage.jpg"></a>
+        </div>
       </div>
     );
   }
@@ -512,7 +591,8 @@ const mapDispatchToProps = {
   isMobileBttnPress,
   displayMobileBttn,
   isResetBttn,
-  isGraphCompleted
+  isGraphCompleted,
+  isDownloadCanvas
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
