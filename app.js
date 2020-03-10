@@ -1,14 +1,19 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-
 var app = express();
+var morgan = require("morgan");
+// SQL connection
+var pgConnection = require("./server/database/index");
+//Routes
+const canvasData = require("./routes/rSendEmail");
+
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); //for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, "client/build")));
+app.use(morgan("tiny")); //Log all the HTTP requests and responses
+
+app.use("/api/sendCanvas", canvasData);
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get("*", (req, res) => {

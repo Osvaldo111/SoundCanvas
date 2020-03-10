@@ -37,6 +37,11 @@
 }
 /* ---Record Section---- */
 
+.canvBttnOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 /* ---Reset Bttn Mobile--- */
 
 .resetBttnMobile {
@@ -62,8 +67,8 @@
 .mobileBttnEffect {
   overflow: hidden;
   position: relative;
+  /* position: absolute; */
   margin-top: 10px;
-  /* padding: 10px 60px; */
 }
 
 .mobileBttnEffect p {
@@ -85,7 +90,7 @@
 
 .mobileBttnEffect:hover #spinAnimMob {
   width: 200%;
-  height: 500%;
+  height: 700%;
   opacity: 1;
   left: -85px;
   top: -70px;
@@ -159,7 +164,7 @@ input[type="text"] {
 * Small devices (landscape phones, 576px and up)
 */
 @media (min-width: 576px) {
-  .resetBttnMobile {
+  .canvBttnOptions {
     display: none;
   }
 }

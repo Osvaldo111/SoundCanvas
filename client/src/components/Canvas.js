@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import "../style/canvas.css";
 import { connect } from "react-redux";
 import { changeCanvasWidth } from "../actions";
@@ -498,6 +499,31 @@ class Canvas extends React.Component {
     inputTxt.style.left = "45%";
   };
 
+  downloadMobBttn = () => {
+    const { gfCompleted } = this.props.canvasProps;
+    if (gfCompleted) {
+      this.props.isDownloadCanvas(true);
+    } else {
+      alert("Please, record something");
+    }
+  };
+
+  sendCanvasEmail = () => {
+    const canvas = this.canvasRef.current;
+    const imgURL = canvas.toDataURL("image/jpg");
+    console.log(imgURL);
+    axios
+      .post("/api/sendCanvas", {
+        firstName: "Fredoooooooo",
+        imgURL: imgURL
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
     const { displayBttn } = this.state;
@@ -535,32 +561,34 @@ class Canvas extends React.Component {
             style={{ opacity: recorderBttn ? ".5" : "" }}
           />
         </div>
-        <div className="resetBttnMobile">
-          <button
-            onClick={this.isResetBttnPressMobile}
-            style={{ opacity: gfCompleted ? "" : "0.6" }}
+        <div className="canvBttnOptions">
+          <div className="resetBttnMobile">
+            <button
+              onClick={this.isResetBttnPressMobile}
+              style={{ opacity: gfCompleted ? "" : "0.6" }}
+            >
+              Reset
+            </button>
+          </div>
+          <a
+            className="mobileBttnEffect"
+            id="download"
+            download="myImage.jpg"
+            onClick={this.sendCanvasEmail}
           >
-            Reset
-          </button>
+            <div id="spinAnimMob"></div>
+            <p>send</p>
+          </a>
+          <a
+            className="mobileBttnEffect"
+            id="download"
+            download="myImage.jpg"
+            onClick={this.downloadMobBttn}
+          >
+            <div id="spinAnimMob"></div>
+            <p>Download</p>
+          </a>
         </div>
-        <a
-          className="mobileBttnEffect"
-          id="download"
-          download="myImage.jpg"
-          onClick={this.isDownloadBttnPress}
-        >
-          <div id="spinAnimMob"></div>
-          <p>send</p>
-        </a>
-        <a
-          className="mobileBttnEffect"
-          id="download"
-          download="myImage.jpg"
-          onClick={this.isDownloadBttnPress}
-        >
-          <div id="spinAnimMob"></div>
-          <p>Download</p>
-        </a>
         <div className="mobilBttn">
           <img
             onClick={this.isMobileBttnPress}
