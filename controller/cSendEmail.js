@@ -1,7 +1,7 @@
 var nodemailer = require("nodemailer");
 const userCred = require("../emailCredentials/credentials");
 
-const sendEmail = (message, file) => {
+const sendEmail = (message, userEmail, file, callback) => {
   //   console.log("NodeMailer", userCred.email, userCred.password);
   //   console.log("The image: ", file);
 
@@ -18,7 +18,7 @@ const sendEmail = (message, file) => {
 
   var mailOptions = {
     from: userCred.email,
-    to: userCred.email,
+    to: userEmail,
     subject: "Floppyer Job!",
     text: JSON.stringify(message),
     attachments: [
@@ -33,9 +33,11 @@ const sendEmail = (message, file) => {
 
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
-      console.log(error);
+      // console.log(error);
+      callback(error, null);
     } else {
-      console.log("Email sent: " + info.response);
+      callback(null, "Email sent: " + info.response);
+      // console.log("Email sent: " + info.response);
     }
   });
 };

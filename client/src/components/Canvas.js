@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import "../style/canvas.css";
 import { connect } from "react-redux";
 // Action reducers
@@ -18,6 +17,7 @@ import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
 import { dragObject } from "../utilities/dragObject";
 import { downloadCanvas } from "../utilities/downloadCanvas";
+import fetchAPI from "../http/fetch";
 // Components
 import SendForm from "./SendForm";
 
@@ -515,20 +515,16 @@ class Canvas extends React.Component {
   };
 
   sendCanvasEmail = () => {
-    // const canvas = this.canvasRef.current;
-    // const imgURL = canvas.toDataURL("image/jpg");
-    // console.log(imgURL);
-    // axios
-    //   .post("/api/sendCanvas", {
-    //     firstName: "Fredoooooooo",
-    //     imgURL: imgURL
-    //   })
-    //   .then(function(response) {
-    //     console.log(response);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   });
+    const canvas = this.canvasRef.current;
+    const imgURL = canvas.toDataURL("image/jpg");
+    console.log(imgURL);
+
+    const email = "osvaldo";
+    const data = {
+      email: email,
+      imgURL: imgURL
+    };
+    fetchAPI("/api/sendCanvas", data);
   };
 
   handleSendPopDisp = () => {
@@ -542,6 +538,7 @@ class Canvas extends React.Component {
 
   handleSendFormBttn = result => {
     console.log(result, "*****************");
+    this.sendCanvasEmail();
   };
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;

@@ -3,8 +3,6 @@ var express = require("express");
 var path = require("path");
 var app = express();
 var morgan = require("morgan");
-// SQL connection
-var pgConnection = require("./server/database/index");
 //Routes
 const canvasData = require("./routes/rSendEmail");
 
