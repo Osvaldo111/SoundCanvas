@@ -3,6 +3,7 @@ import "../style/navBar.css";
 import { connect } from "react-redux";
 import { isResetBttn } from "../actions";
 import { isDownloadCanvas } from "../actions";
+import SendForm from "./SendForm";
 /**
  * @author Osvaldo Carrillo
  * Date: 02/08/2020
@@ -10,6 +11,12 @@ import { isDownloadCanvas } from "../actions";
  * of the application.
  */
 class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      displaySendForm: false
+    };
+  }
   isResetBttnPress = () => {
     const { gfCompleted } = this.props.canvasProps;
     if (gfCompleted) {
@@ -27,7 +34,21 @@ class NavBar extends React.Component {
       alert("Please, record something");
     }
   };
+
+  handleSendPopDisp = () => {
+    const { displaySendForm } = this.state;
+    if (displaySendForm) {
+      this.setState({ displaySendForm: false });
+    } else {
+      this.setState({ displaySendForm: true });
+    }
+  };
+
+  handleSendFormBttn = result => {
+    console.log(result, "*****************");
+  };
   render() {
+    const { displaySendForm } = this.state;
     return (
       <div className="navBar">
         <div className="navBarLogo">
@@ -50,12 +71,17 @@ class NavBar extends React.Component {
             className="bttnEffect bttnSend"
             id="download"
             download="myImage.jpg"
-            onClick={this.isDownloadBttnPress}
+            onClick={this.handleSendPopDisp}
           >
             <div id="spinAnim"></div>
             <p>Send</p>
           </a>
         </div>
+        <SendForm
+          display={displaySendForm}
+          handleDisplay={this.handleSendPopDisp}
+          handleSend={this.handleSendFormBttn}
+        />
       </div>
     );
   }

@@ -2,12 +2,14 @@ import React from "react";
 import axios from "axios";
 import "../style/canvas.css";
 import { connect } from "react-redux";
+// Action reducers
 import { changeCanvasWidth } from "../actions";
 import { isMobileBttnPress } from "../actions";
 import { displayMobileBttn } from "../actions";
 import { isResetBttn } from "../actions";
 import { isGraphCompleted } from "../actions";
 import { isDownloadCanvas } from "../actions";
+// Utilities
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
 import soundWaveThin from "../utilities/graphs/deve";
@@ -16,6 +18,9 @@ import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
 import { dragObject } from "../utilities/dragObject";
 import { downloadCanvas } from "../utilities/downloadCanvas";
+// Components
+import SendForm from "./SendForm";
+
 /**
  * author: Osvaldo Carrillo
  * Date: 02/08/2020
@@ -42,7 +47,8 @@ class Canvas extends React.Component {
       soundWaveColor: "#000000",
       stopRecording: false,
       inputValue: "TEXT HERE",
-      displayText: false
+      displayText: false,
+      dispSendPopup: false
     };
     console.log(this.props);
   }
@@ -509,24 +515,37 @@ class Canvas extends React.Component {
   };
 
   sendCanvasEmail = () => {
-    const canvas = this.canvasRef.current;
-    const imgURL = canvas.toDataURL("image/jpg");
-    console.log(imgURL);
-    axios
-      .post("/api/sendCanvas", {
-        firstName: "Fredoooooooo",
-        imgURL: imgURL
-      })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    // const canvas = this.canvasRef.current;
+    // const imgURL = canvas.toDataURL("image/jpg");
+    // console.log(imgURL);
+    // axios
+    //   .post("/api/sendCanvas", {
+    //     firstName: "Fredoooooooo",
+    //     imgURL: imgURL
+    //   })
+    //   .then(function(response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+  };
+
+  handleSendPopDisp = () => {
+    const { dispSendPopup } = this.state;
+    if (dispSendPopup) {
+      this.setState({ dispSendPopup: false });
+    } else {
+      this.setState({ dispSendPopup: true });
+    }
+  };
+
+  handleSendFormBttn = result => {
+    console.log(result, "*****************");
   };
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
-    const { displayBttn } = this.state;
+    const { displayBttn, dispSendPopup } = this.state;
     const { gfCompleted } = this.props.canvasProps;
 
     return (
@@ -574,7 +593,7 @@ class Canvas extends React.Component {
             className="mobileBttnEffect"
             id="download"
             download="myImage.jpg"
-            onClick={this.sendCanvasEmail}
+            onClick={this.handleSendPopDisp}
           >
             <div id="spinAnimMob"></div>
             <p>send</p>
@@ -602,6 +621,11 @@ class Canvas extends React.Component {
         <div style={{ display: "none" }}>
           <a href="" ref={this.downloadCavRef} download="myImage.jpg"></a>
         </div>
+        <SendForm
+          handleSend={this.handleSendFormBttn}
+          handleDisplay={this.handleSendPopDisp}
+          display={dispSendPopup}
+        />
       </div>
     );
   }

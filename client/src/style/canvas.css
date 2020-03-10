@@ -158,6 +158,9 @@ input[type="text"] {
 * Small devices (small devices, 425px and up)
 */
 @media (min-width: 425px) {
+  .sendCardForm {
+    width: 350px;
+  }
 }
 
 /*
@@ -176,6 +179,10 @@ input[type="text"] {
   .mobilBttn {
     display: none;
   }
+
+  .sendCardForm {
+    width: 400px;
+  }
 }
 
 /**
@@ -184,6 +191,10 @@ input[type="text"] {
 @media (min-width: 992px) {
   .canvasSection {
     margin-top: 30px;
+  }
+
+  .sendCardForm {
+    width: 450px;
   }
 }
 
