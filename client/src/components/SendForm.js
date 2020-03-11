@@ -13,7 +13,10 @@ import { connect } from "react-redux";
 class SendForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: "",
+      disableSendEmpty: true
+    };
   }
 
   handleClose = () => {
@@ -21,35 +24,67 @@ class SendForm extends React.Component {
   };
 
   handleSend = () => {
-    this.props.handleSend(true);
+    this.props.handleSend(this.state.email);
+  };
+
+  handleChange = event => {
+    const email = event.target.value;
+    if (email.length > 0) {
+      this.setState({ disableSendEmpty: false });
+    } else {
+      this.setState({ disableSendEmpty: true });
+    }
+    this.setState({ email: email });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    this.handleSend();
   };
 
   render() {
-    const { display } = this.props;
+    const { display, disableBttn, message } = this.props;
+    const { email, disableSendEmpty } = this.state;
     return (
-      <div
+      <form
         className="overSendCanv"
         style={{
           visibility: display ? "visible" : "",
           opacity: display ? "1" : ""
         }}
+        onSubmit={this.handleSubmit}
       >
         <div className="sendCardConta">
           <div className="sendCardForm">
             <div className="sendCarFormTitle">Send Canvas</div>
             <div className="sendCanvFormBdy">
               <div>
-                <input type="text" placeholder="Email Address" />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={this.handleChange}
+                />
               </div>
             </div>
             <div className="ruleLnFrm"></div>
             <div className="sendCvaFrmFttr">
-              <a onClick={this.handleSend}>Send</a>
+              <input
+                type="submit"
+                value="Send"
+                style={{
+                  opacity: disableSendEmpty || disableBttn ? "0.5" : "",
+                  cursor:
+                    disableSendEmpty || disableBttn ? "default" : "pointer"
+                }}
+                disabled={disableSendEmpty || disableBttn ? true : false}
+              />
               <a onClick={this.handleClose}>Close</a>
+              <div>{message}</div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     );
   }
 }

@@ -14,7 +14,9 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displaySendForm: false
+      displaySendForm: false,
+      disSendFormBttn: false,
+      messageSentEmail: ""
     };
   }
   isResetBttnPress = () => {
@@ -44,11 +46,15 @@ class NavBar extends React.Component {
     }
   };
 
-  handleSendFormBttn = result => {
-    console.log(result, "*****************");
+  handleSendFormBttn = email => {
+    if (email) {
+      this.setState({ disSendFormBttn: true }, () => {
+        this.sendCanvasEmail(email);
+      });
+    }
   };
   render() {
-    const { displaySendForm } = this.state;
+    const { displaySendForm, disSendFormBttn, messageSentEmail } = this.state;
     return (
       <div className="navBar">
         <div className="navBarLogo">
@@ -81,6 +87,8 @@ class NavBar extends React.Component {
           display={displaySendForm}
           handleDisplay={this.handleSendPopDisp}
           handleSend={this.handleSendFormBttn}
+          disableBttn={disSendFormBttn}
+          message={messageSentEmail}
         />
       </div>
     );

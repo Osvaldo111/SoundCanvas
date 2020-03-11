@@ -48,7 +48,9 @@ class Canvas extends React.Component {
       stopRecording: false,
       inputValue: "TEXT HERE",
       displayText: false,
-      dispSendPopup: false
+      dispSendPopup: false,
+      disSendFormBttn: false,
+      messageSentEmail: ""
     };
     console.log(this.props);
   }
@@ -514,17 +516,27 @@ class Canvas extends React.Component {
     }
   };
 
-  sendCanvasEmail = () => {
+  sendCanvasEmail = email => {
     const canvas = this.canvasRef.current;
     const imgURL = canvas.toDataURL("image/jpg");
-    console.log(imgURL);
 
-    const email = "osvaldo";
     const data = {
       email: email,
       imgURL: imgURL
     };
-    fetchAPI("/api/sendCanvas", data);
+
+    this.setState({ messageSentEmail: "" }, () => {
+      fetchAPI("/api/sendCanvas", data)
+        .then(result => {
+          const message = result.data.res;
+          this.setState({ messageSentEmail: message, disSendFormBttn: false });
+        })
+        .catch(error => {
+          const message = error.response.data.res;
+          console.log(error.response.data.res);
+          this.setState({ messageSentEmail: message, disSendFormBttn: false });
+        });
+    });
   };
 
   handleSendPopDisp = () => {
@@ -536,13 +548,21 @@ class Canvas extends React.Component {
     }
   };
 
-  handleSendFormBttn = result => {
-    console.log(result, "*****************");
-    this.sendCanvasEmail();
+  handleSendFormBttn = email => {
+    if (email) {
+      this.setState({ disSendFormBttn: true }, () => {
+        this.sendCanvasEmail(email);
+      });
+    }
   };
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
-    const { displayBttn, dispSendPopup } = this.state;
+    const {
+      displayBttn,
+      dispSendPopup,
+      disSendFormBttn,
+      messageSentEmail
+    } = this.state;
     const { gfCompleted } = this.props.canvasProps;
 
     return (
@@ -622,6 +642,8 @@ class Canvas extends React.Component {
           handleSend={this.handleSendFormBttn}
           handleDisplay={this.handleSendPopDisp}
           display={dispSendPopup}
+          disableBttn={disSendFormBttn}
+          message={messageSentEmail}
         />
       </div>
     );
