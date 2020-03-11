@@ -12,6 +12,7 @@ import { FONT_SIZE } from "../constants/ActionTypes";
 import { FONT_COLOR } from "../constants/ActionTypes";
 import { ADD_TXT_CANVAS } from "../constants/ActionTypes";
 import { DOWNLOAD_CANVAS } from "../constants/ActionTypes";
+import { SEND_CANVAS_EMAIL } from "../constants/ActionTypes";
 
 const init = {
   width: 0,
@@ -27,7 +28,8 @@ const init = {
   fontSize: 8,
   fontColor: "black",
   canvasTxt: false,
-  downloadCanvas: false
+  downloadCanvas: false,
+  sendCanvas: false
 };
 
 export default function(state = init, action) {
@@ -60,6 +62,8 @@ export default function(state = init, action) {
       return { ...state, canvasTxt: action.value };
     case DOWNLOAD_CANVAS:
       return { ...state, downloadCanvas: action.value };
+    case SEND_CANVAS_EMAIL:
+      return { ...state, sendCanvas: action.value };
     default:
       return { ...state };
   }

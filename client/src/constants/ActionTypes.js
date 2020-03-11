@@ -13,3 +13,4 @@ export const FONT_SIZE = "SET_FONT_SIZE";
 export const FONT_COLOR = "SET_FONT_COLOR";
 export const ADD_TXT_CANVAS = "CANVAS_TEXT";
 export const DOWNLOAD_CANVAS = "DOWNLOAD_CANVAS";
+export const SEND_CANVAS_EMAIL = "SEND_CANVAS";

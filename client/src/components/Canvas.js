@@ -8,6 +8,7 @@ import { displayMobileBttn } from "../actions";
 import { isResetBttn } from "../actions";
 import { isGraphCompleted } from "../actions";
 import { isDownloadCanvas } from "../actions";
+import { isSendCanvas } from "../actions";
 // Utilities
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
@@ -130,6 +131,9 @@ class Canvas extends React.Component {
 
     const currDownloadCanvas = this.props.canvasProps.downloadCanvas;
     const prevDownLoadCanvas = prevProps.canvasProps.downloadCanvas;
+
+    const currSendCanvas = this.props.canvasProps.sendCanvas;
+    const prevSendCanvas = prevProps.canvasProps.sendCanvas;
 
     // Listening to the mainpage to get the device client width
     // and height to avoid distortions on the canvas.
@@ -284,6 +288,14 @@ class Canvas extends React.Component {
         downloadCanvas(canvas, nodeElm, () => {
           nodeElm.click();
         });
+      }
+    }
+
+    // Listen to the send canvas actions
+    if (currSendCanvas !== prevSendCanvas) {
+      if (currSendCanvas) {
+        this.props.isSendCanvas(false); // Init
+        this.handleSendPopDisp();
       }
     }
   }
@@ -516,6 +528,9 @@ class Canvas extends React.Component {
     }
   };
 
+  /**
+   * Send the canvas via email
+   */
   sendCanvasEmail = email => {
     const canvas = this.canvasRef.current;
     const imgURL = canvas.toDataURL("image/jpg");
@@ -539,6 +554,9 @@ class Canvas extends React.Component {
     });
   };
 
+  /**
+   * Display the popup window of the send form
+   */
   handleSendPopDisp = () => {
     const { dispSendPopup } = this.state;
     if (dispSendPopup) {
@@ -548,11 +566,23 @@ class Canvas extends React.Component {
     }
   };
 
+  /**
+   * Get the email from the send form popup
+   */
   handleSendFormBttn = email => {
     if (email) {
       this.setState({ disSendFormBttn: true }, () => {
         this.sendCanvasEmail(email);
       });
+    }
+  };
+
+  sendMobBttn = () => {
+    const { gfCompleted } = this.props.canvasProps;
+    if (gfCompleted) {
+      this.props.isSendCanvas(true);
+    } else {
+      alert("Please, record something");
     }
   };
   render() {
@@ -610,7 +640,7 @@ class Canvas extends React.Component {
             className="mobileBttnEffect"
             id="download"
             download="myImage.jpg"
-            onClick={this.handleSendPopDisp}
+            onClick={this.sendMobBttn}
           >
             <div id="spinAnimMob"></div>
             <p>send</p>
@@ -663,7 +693,8 @@ const mapDispatchToProps = {
   displayMobileBttn,
   isResetBttn,
   isGraphCompleted,
-  isDownloadCanvas
+  isDownloadCanvas,
+  isSendCanvas
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

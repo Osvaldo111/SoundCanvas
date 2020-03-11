@@ -137,3 +137,13 @@ export const isDownloadCanvas = value => ({
   type: types.DOWNLOAD_CANVAS,
   value
 });
+
+/**
+ * Check when the user presses the send
+ * button.
+ * @param {Boolean} value
+ */
+export const isSendCanvas = value => ({
+  type: types.SEND_CANVAS_EMAIL,
+  value
+});
