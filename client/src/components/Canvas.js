@@ -65,22 +65,13 @@ class Canvas extends React.Component {
   };
 
   develop = () => {
-    // this.devArray(array => {
-    //   console.log("The array: ", array);
-    //   const canvas = this.canvasRef.current; //dev
-    //   // const { arrayOfAmplitud } = this.state;
-    //   soundWaveThin(canvas, array, "red", 7, 1);
-    // });
-
-    const canvas = this.canvasRef.current;
-    var ctx = canvas.getContext("2d");
-    ctx.font = "30px Arial";
-    var text = "Hello World";
-    const measureText = Math.round(ctx.measureText(text).width);
-    const canvasWidth = canvas.width;
-    const centerTxtWid = canvasWidth / 2 - measureText / 2;
-    ctx.fillText(text, centerTxtWid, 600);
+    this.devArray(array => {
+      // console.log("The array: ", array);
+      const canvas = this.canvasRef.current; //dev
+      soundWaveThin(canvas, "red", array, null, null, null, null);
+    });
   };
+
   componentDidMount() {
     // Setting up the canvas when init.
     const canvasContainer = resizeCanvas(this.canvasContainerRef);
@@ -178,7 +169,8 @@ class Canvas extends React.Component {
                   currCanvasCol,
                   arrayOfAmplitud,
                   currSWCol,
-                  currSWThick
+                  currSWThick,
+                  currSWWidth
                 );
               }
             }
@@ -285,8 +277,13 @@ class Canvas extends React.Component {
       if (currDownloadCanvas) {
         this.props.isDownloadCanvas(false); // Init
         const nodeElm = this.downloadCavRef.current;
-        downloadCanvas(canvas, nodeElm, () => {
-          nodeElm.click();
+        // Check if the user wrote a text on the canvas
+        this.drawTextOnCanvas(() => {
+          downloadCanvas(canvas, nodeElm, () => {
+            nodeElm.click();
+            // Reset the canvas without a text
+            this.deleteTxtOnCanvas();
+          });
         });
       }
     }
@@ -314,7 +311,7 @@ class Canvas extends React.Component {
       },
       () => {
         const { arrayOfAmplitud } = this.state;
-        soundWaveThin(canvas, arrayOfAmplitud);
+        soundWaveThin(canvas, null, arrayOfAmplitud);
       }
     );
   };
@@ -355,6 +352,7 @@ class Canvas extends React.Component {
       null,
       null,
       null,
+      null,
       canvasEnd => {
         if (canvasEnd) {
           this.setState({ stopRecording: true });
@@ -367,6 +365,66 @@ class Canvas extends React.Component {
     if (cancelReqFrame) {
       cancelAnimationFrame(reqFrame);
     }
+  };
+
+  deleteTxtOnCanvas = () => {
+    const canvasText = this.props.canvasProps.canvasTxt;
+    if (canvasText) {
+      const canvas = this.canvasRef.current;
+      const { arrayOfAmplitud } = this.state;
+      const { swColor, swWidth, swThick, canvasColor } = this.props.canvasProps;
+
+      soundWaveThin(
+        canvas,
+        canvasColor,
+        arrayOfAmplitud,
+        swColor,
+        swThick,
+        swWidth,
+        null,
+        null
+      );
+    }
+  };
+  drawTextOnCanvas = callback => {
+    const canvasText = this.props.canvasProps.canvasTxt;
+    if (canvasText) {
+      const canvas = this.canvasRef.current;
+      const {
+        fontSize,
+        fontColor,
+        swColor,
+        swWidth,
+        swThick,
+        canvasColor
+      } = this.props.canvasProps;
+      const { inputValue, arrayOfAmplitud } = this.state;
+      const inputElemtLeft = this.inputTxtRef.current.offsetLeft;
+      const inputElemtTop =
+        this.inputTxtRef.current.offsetTop + parseInt(fontSize);
+
+      console.log("The top: ", inputElemtTop);
+      console.log("The left: ", inputElemtLeft);
+
+      const textObj = {
+        text: inputValue,
+        fontSize: fontSize,
+        fontColor: fontColor,
+        xAxis: inputElemtLeft,
+        yAxis: inputElemtTop
+      };
+      soundWaveThin(
+        canvas,
+        canvasColor,
+        arrayOfAmplitud,
+        swColor,
+        swThick,
+        swWidth,
+        textObj,
+        null
+      );
+    }
+    callback();
   };
 
   /**
@@ -532,25 +590,35 @@ class Canvas extends React.Component {
    * Send the canvas via email
    */
   sendCanvasEmail = email => {
-    const canvas = this.canvasRef.current;
-    const imgURL = canvas.toDataURL("image/jpg");
+    // Check if there is text on canvas
+    this.drawTextOnCanvas(() => {
+      const canvas = this.canvasRef.current;
+      const imgURL = canvas.toDataURL("image/jpg");
 
-    const data = {
-      email: email,
-      imgURL: imgURL
-    };
-
-    this.setState({ messageSentEmail: "" }, () => {
-      fetchAPI("/api/sendCanvas", data)
-        .then(result => {
-          const message = result.data.res;
-          this.setState({ messageSentEmail: message, disSendFormBttn: false });
-        })
-        .catch(error => {
-          const message = error.response.data.res;
-          console.log(error.response.data.res);
-          this.setState({ messageSentEmail: message, disSendFormBttn: false });
-        });
+      const data = {
+        email: email,
+        imgURL: imgURL
+      };
+      // Remove the text from the canvas
+      this.deleteTxtOnCanvas();
+      this.setState({ messageSentEmail: "" }, () => {
+        fetchAPI("/api/sendCanvas", data)
+          .then(result => {
+            const message = result.data.res;
+            this.setState({
+              messageSentEmail: message,
+              disSendFormBttn: false
+            });
+          })
+          .catch(error => {
+            const message = error.response.data.res;
+            console.log(error.response.data.res);
+            this.setState({
+              messageSentEmail: message,
+              disSendFormBttn: false
+            });
+          });
+      });
     });
   };
 
@@ -593,7 +661,7 @@ class Canvas extends React.Component {
       disSendFormBttn,
       messageSentEmail
     } = this.state;
-    const { gfCompleted } = this.props.canvasProps;
+    const { gfCompleted, fontSize } = this.props.canvasProps;
 
     return (
       <div className="canvasContainer" ref={this.canvasContainerRef}>
@@ -614,8 +682,10 @@ class Canvas extends React.Component {
             onKeyDown={this.resizeInputField}
             onChange={this.handleChange}
             style={{
-              display: this.state.displayText ? "inline-block" : "none"
+              display: this.state.displayText ? "inline-block" : "none",
+              fontSize: fontSize
             }}
+            size="8"
           />
         </div>
 

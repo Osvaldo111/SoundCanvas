@@ -25,7 +25,7 @@ const init = {
   swWidth: 1,
   resetBttn: false,
   gfCompleted: false,
-  fontSize: 8,
+  fontSize: 14,
   fontColor: "black",
   canvasTxt: false,
   downloadCanvas: false,

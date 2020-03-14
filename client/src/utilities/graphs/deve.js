@@ -6,6 +6,7 @@ const drawCanvasThinSW = (
   swColor = "#000000",
   swThick = 1,
   swWidth = 1,
+  textObj,
   callback
 ) => {
   console.log(backgroundColor);
@@ -28,14 +29,6 @@ const drawCanvasThinSW = (
   var left = 0;
   var spacePosition = swWidth;
 
-  // Draw middle line
-  context.beginPath();
-  context.moveTo(0, width / 2);
-  context.lineTo(height, width / 2);
-  context.lineWidth = 1;
-  context.strokeStyle = "black";
-  context.stroke();
-
   for (const stat in arrAmplitud) {
     var currentValue = arrAmplitud[stat];
     // Substract top and bottom padding
@@ -57,14 +50,34 @@ const drawCanvasThinSW = (
     left += parseInt(spacePosition);
 
     // Draw middle line
-    context.beginPath();
-    context.moveTo(0, width / 2);
-    context.lineTo(height, width / 2);
-    context.lineWidth = 1;
-    context.strokeStyle = "black";
-    context.stroke();
+    // context.beginPath();
+    // context.moveTo(0, width / 2);
+    // context.lineTo(height, width / 2);
+    // context.lineWidth = 1;
+    // context.strokeStyle = "black";
+    // context.stroke();
   }
 
+  // Draw middle line
+  context.beginPath();
+  context.moveTo(0, width / 2);
+  context.lineTo(height, width / 2);
+  context.lineWidth = 1;
+  context.strokeStyle = "black";
+  context.stroke();
+
+  // context.fillStyle = "red";
+  // context.font = "14px Arial";
+  // context.fillText("Hellogggggg", 200, 200);
+
+  if (textObj != null) {
+    console.log("THE ERROR: ", textObj);
+    const { text, fontSize, fontColor, xAxis, yAxis } = textObj;
+    context.fillStyle = fontColor;
+    context.font = fontSize + "px Arial";
+    context.fillText(text, xAxis, yAxis);
+    console.log(fontSize + "px Arial");
+  }
   if (left >= width) {
     const canvasEnd = true;
     typeof callback === "function" && callback(canvasEnd);

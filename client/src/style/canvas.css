@@ -130,21 +130,12 @@
   left: 45%;
   top: 45%;
   background-color: transparent;
-  /* right: 0; */
-  /* margin-left: auto;
-  margin-right: auto; */
-  /* top: 50%;
-  margin-top: -7.5px; */
   cursor: move;
   border-width: 0;
   height: 20px;
-  padding-left: 3px;
   height: auto;
-  text-align: center;
-  /* transition: width 0.25s; */
 }
 input[type="text"] {
-  /* font-size: 44px; */
 }
 
 .inputTextCanvas:focus {

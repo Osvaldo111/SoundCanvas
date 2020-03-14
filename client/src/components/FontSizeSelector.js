@@ -17,7 +17,7 @@ class FontSizeSelector extends React.Component {
     this.inputRef = React.createRef();
     this.state = {
       display: false,
-      fontSize: "8"
+      fontSize: "14"
     };
   }
 
@@ -99,8 +99,8 @@ class FontSizeSelector extends React.Component {
           style={{ display: display ? "block" : "none" }}
         >
           <ul onClick={this.selectFontSize}>
-            <li data-size="8">8</li>
             <li data-size="6">6</li>
+            <li data-size="8">8</li>
             <li data-size="10">10</li>
             <li data-size="12">12</li>
             <li data-size="14">14</li>
