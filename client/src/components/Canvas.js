@@ -12,7 +12,7 @@ import { isSendCanvas } from "../actions";
 // Utilities
 import recordBttn from "../images/recordBttn.svg";
 import audioUtilities from "../utilities/recording";
-import soundWaveThin from "../utilities/graphs/deve";
+import soundWaveThin from "../utilities/graphs/soundwave";
 import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
@@ -41,7 +41,6 @@ class Canvas extends React.Component {
       canvasHeight: "",
       recorderBttn: false,
       arrayOfAmplitud: [],
-      developmentVar: "example",
       timeLimitSeconds: 30,
       cancelReqFrame: false,
       canvasColor: "#fff",
@@ -53,24 +52,7 @@ class Canvas extends React.Component {
       disSendFormBttn: false,
       messageSentEmail: ""
     };
-    console.log(this.props);
   }
-
-  devArray = callback => {
-    var array = [];
-    for (let index = 0; index < 30; index++) {
-      array.push(Math.floor(Math.random() * 100) + 1);
-    }
-    callback(array);
-  };
-
-  develop = () => {
-    this.devArray(array => {
-      // console.log("The array: ", array);
-      const canvas = this.canvasRef.current; //dev
-      soundWaveThin(canvas, "red", array, null, null, null, null);
-    });
-  };
 
   componentDidMount() {
     // Setting up the canvas when init.
@@ -183,7 +165,6 @@ class Canvas extends React.Component {
     if (currCanvasCol !== prevCanvasCol) {
       const { gfCompleted } = this.props.canvasProps;
       if (gfCompleted) {
-        console.log(currCanvasCol);
         soundWaveThin(
           canvas,
           currCanvasCol,
@@ -402,10 +383,6 @@ class Canvas extends React.Component {
       const inputElemtLeft = this.inputTxtRef.current.offsetLeft;
       const inputElemtTop =
         this.inputTxtRef.current.offsetTop + parseInt(fontSize);
-
-      console.log("The top: ", inputElemtTop);
-      console.log("The left: ", inputElemtLeft);
-
       const textObj = {
         text: inputValue,
         fontSize: fontSize,
@@ -538,9 +515,8 @@ class Canvas extends React.Component {
     const { recorderBttn } = this.state;
     if (recorderBttn === false) {
       this.setState({ recorderBttn: true }, () => {
-        console.log("The button is pressed");
-        // recordAudio();
-        this.processAudio(); // Development: Change on click
+        // Record the audio
+        this.processAudio();
         this.reqFrameGraph();
       });
     }
@@ -612,7 +588,7 @@ class Canvas extends React.Component {
           })
           .catch(error => {
             const message = error.response.data.res;
-            console.log(error.response.data.res);
+            // console.log(error.response.data.res);
             this.setState({
               messageSentEmail: message,
               disSendFormBttn: false
@@ -733,7 +709,6 @@ class Canvas extends React.Component {
             style={{ display: displayBttn ? "flex" : "none" }}
           />
         </div>
-        <div onClick={this.develop}>Development</div>
         {/* This is just a helper syntax to download the canvas */}
         <div style={{ display: "none" }}>
           <a href="" ref={this.downloadCavRef} download="myImage.jpg"></a>

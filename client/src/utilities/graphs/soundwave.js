@@ -9,7 +9,6 @@ const drawCanvasThinSW = (
   textObj,
   callback
 ) => {
-  console.log(backgroundColor);
   if (backgroundColor === null) backgroundColor = "#fff";
   if (swColor === null) swColor = "#000000";
   if (swThick === null) swThick = 1;
@@ -71,12 +70,10 @@ const drawCanvasThinSW = (
   // context.fillText("Hellogggggg", 200, 200);
 
   if (textObj != null) {
-    console.log("THE ERROR: ", textObj);
     const { text, fontSize, fontColor, xAxis, yAxis } = textObj;
     context.fillStyle = fontColor;
     context.font = fontSize + "px Arial";
     context.fillText(text, xAxis, yAxis);
-    console.log(fontSize + "px Arial");
   }
   if (left >= width) {
     const canvasEnd = true;
