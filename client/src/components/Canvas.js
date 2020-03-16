@@ -17,6 +17,7 @@ import resizeCanvas from "../utilities/resizeCanvas";
 import canvasSizes from "../utilities/canvasSizes";
 import mobilBttn from "../images/menu-bttn.svg";
 import { dragObject } from "../utilities/dragObject";
+import { dragObjectMobile } from "../utilities/dragObjectMobile";
 import { downloadCanvas } from "../utilities/downloadCanvas";
 import fetchAPI from "../http/fetch";
 // Components
@@ -629,6 +630,13 @@ class Canvas extends React.Component {
       alert("Please, record something");
     }
   };
+
+  dragElementInputMobile = event => {
+    const canvas = this.canvasRef.current;
+    const inputText = this.inputTxtRef.current;
+    dragObjectMobile(event, inputText, canvas);
+  };
+
   render() {
     const { canvasWidth, canvasHeight, canvasColor, recorderBttn } = this.state;
     const {
@@ -652,6 +660,7 @@ class Canvas extends React.Component {
           <input
             type="text"
             onMouseDown={this.dragElementInput}
+            onTouchStart={this.dragElementInputMobile}
             className="inputTextCanvas"
             ref={this.inputTxtRef}
             value={this.state.inputValue}
