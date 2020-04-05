@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation bar <NavBar /> renders correctly 1`] = `
+<Connect(NavBar)>
+  <div
+    className="navBar"
+  >
+    <div
+      className="navBarLogo"
+    >
+      <p>
+        Sound Canvas
+      </p>
+    </div>
+    <div
+      className="navBarBttn"
+    >
+      <button
+        id="resetBttn"
+        onClick={[Function]}
+      >
+        <p>
+          Reset
+        </p>
+      </button>
+      <a
+        className="bttnEffect"
+        download="myImage.jpg"
+        id="download"
+        onClick={[Function]}
+      >
+        <div
+          id="spinAnim"
+        />
+        <p>
+          Download
+        </p>
+      </a>
+      <a
+        className="bttnEffect bttnSend"
+        download="myImage.jpg"
+        id="download"
+        onClick={[Function]}
+      >
+        <div
+          id="spinAnim"
+        />
+        <p>
+          Send
+        </p>
+      </a>
+    </div>
+  </div>
+</Connect(NavBar)>
+`;

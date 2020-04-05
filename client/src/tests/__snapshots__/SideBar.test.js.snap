@@ -1,0 +1,685 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Side bar <SideBar /> renders correctly 1`] = `
+<Connect(SideBar)>
+  <div
+    className="sideBarContainer"
+    style={
+      Object {
+        "display": "",
+      }
+    }
+  >
+    <div
+      className="sideBarFirst"
+    >
+      <p
+        className="sideBarSelection"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "",
+          }
+        }
+      >
+        Background
+      </p>
+      <p
+        className="sideBarSelection"
+        onClick={[Function]}
+      >
+        Sound Wave
+        <br />
+        Color
+      </p>
+      <p
+        className="sideBarSelection"
+        onClick={[Function]}
+      >
+        Sound Wave
+        <br />
+        Thickness
+      </p>
+      <p
+        className="sideBarSelection"
+        onClick={[Function]}
+      >
+        Sound Wave
+        <br />
+        Width
+      </p>
+      <p
+        className="sideBarSelection"
+        onClick={[Function]}
+      >
+        Text
+      </p>
+    </div>
+    <div
+      className="sideBarSecond"
+      style={
+        Object {
+          "display": "",
+        }
+      }
+    >
+      <Connect(BackgroundSideBar)
+        display={false}
+      >
+        <div
+          className="backgroundBar"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="backSBTitle"
+          >
+            Colors
+          </div>
+          <div>
+            <Connect(ColorPicker)
+              handleGetColor={[Function]}
+            >
+              <div
+                className="colorPickerContainer"
+              >
+                <ul
+                  className="colorPickerlist"
+                  onClick={[Function]}
+                >
+                  <li
+                    data-color="#F56651"
+                    style={
+                      Object {
+                        "backgroundColor": "#F56651",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#7AE9C9"
+                    style={
+                      Object {
+                        "backgroundColor": "#7AE9C9",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#606A92"
+                    style={
+                      Object {
+                        "backgroundColor": "#606A92",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#FDCD47"
+                    style={
+                      Object {
+                        "backgroundColor": "#FDCD47",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#464849"
+                    style={
+                      Object {
+                        "backgroundColor": "#464849",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#D7D1D5"
+                    style={
+                      Object {
+                        "backgroundColor": "#D7D1D5",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#fff"
+                    style={
+                      Object {
+                        "backgroundColor": "#fff",
+                      }
+                    }
+                  />
+                </ul>
+                <div
+                  className="colorPickInput"
+                >
+                  <div>
+                    Enter Hex Color
+                  </div>
+                  <div
+                    className="contColPkHex"
+                  >
+                    <div
+                      className="colorPickHex"
+                      onClick={[Function]}
+                    >
+                      <p>
+                        #
+                      </p>
+                    </div>
+                    <input
+                      onChange={[Function]}
+                      required={true}
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "color": "red",
+                        "display": "none",
+                      }
+                    }
+                  >
+                    Please enter a color
+                  </div>
+                </div>
+              </div>
+            </Connect(ColorPicker)>
+          </div>
+        </div>
+      </Connect(BackgroundSideBar)>
+      <Connect(SoundwaveColorBar)
+        display={false}
+      >
+        <div
+          className="soundwaveColBar"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="swbarTitle"
+          >
+            Soundwave Colors
+          </div>
+          <div>
+            <Connect(ColorPicker)
+              handleGetColor={[Function]}
+            >
+              <div
+                className="colorPickerContainer"
+              >
+                <ul
+                  className="colorPickerlist"
+                  onClick={[Function]}
+                >
+                  <li
+                    data-color="#F56651"
+                    style={
+                      Object {
+                        "backgroundColor": "#F56651",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#7AE9C9"
+                    style={
+                      Object {
+                        "backgroundColor": "#7AE9C9",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#606A92"
+                    style={
+                      Object {
+                        "backgroundColor": "#606A92",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#FDCD47"
+                    style={
+                      Object {
+                        "backgroundColor": "#FDCD47",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#464849"
+                    style={
+                      Object {
+                        "backgroundColor": "#464849",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#D7D1D5"
+                    style={
+                      Object {
+                        "backgroundColor": "#D7D1D5",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#fff"
+                    style={
+                      Object {
+                        "backgroundColor": "#fff",
+                      }
+                    }
+                  />
+                </ul>
+                <div
+                  className="colorPickInput"
+                >
+                  <div>
+                    Enter Hex Color
+                  </div>
+                  <div
+                    className="contColPkHex"
+                  >
+                    <div
+                      className="colorPickHex"
+                      onClick={[Function]}
+                    >
+                      <p>
+                        #
+                      </p>
+                    </div>
+                    <input
+                      onChange={[Function]}
+                      required={true}
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "color": "red",
+                        "display": "none",
+                      }
+                    }
+                  >
+                    Please enter a color
+                  </div>
+                </div>
+              </div>
+            </Connect(ColorPicker)>
+          </div>
+        </div>
+      </Connect(SoundwaveColorBar)>
+      <Connect(SoundwaveThickBar)
+        display={false}
+      >
+        <div
+          className="soundwaveThickBar"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="swThickBarTitle"
+          >
+            Soundwave Thickness
+          </div>
+          <div
+            className="swThickBarSliCon"
+          >
+            <Connect(SliderBttn)
+              handleGetSliderValue={[Function]}
+            >
+              <div>
+                <div
+                  className="sliderBttnCtn"
+                >
+                  <input
+                    id="myRange"
+                    max="10"
+                    min="1"
+                    onChange={[Function]}
+                    type="range"
+                    value={1}
+                  />
+                </div>
+                <p>
+                  Value 
+                  <span>
+                    1
+                  </span>
+                </p>
+              </div>
+            </Connect(SliderBttn)>
+          </div>
+        </div>
+      </Connect(SoundwaveThickBar)>
+      <Connect(SoundwaveWidthBar)
+        display={false}
+      >
+        <div
+          className="soundwaveWidthBar"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div>
+            <p
+              className="swWidthkBarTitle"
+            >
+              Soundwave Width
+            </p>
+          </div>
+          <div
+            className="swWidthBarSliCon"
+          >
+            <Connect(SliderBttn)
+              handleGetSliderValue={[Function]}
+            >
+              <div>
+                <div
+                  className="sliderBttnCtn"
+                >
+                  <input
+                    id="myRange"
+                    max="10"
+                    min="1"
+                    onChange={[Function]}
+                    type="range"
+                    value={1}
+                  />
+                </div>
+                <p>
+                  Value 
+                  <span>
+                    1
+                  </span>
+                </p>
+              </div>
+            </Connect(SliderBttn)>
+          </div>
+        </div>
+      </Connect(SoundwaveWidthBar)>
+      <Connect(TextBar)
+        display={false}
+      >
+        <div
+          className="textBar"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="textBarTitle"
+          >
+            Text
+          </div>
+          <div>
+            <div>
+              Click text to add to page
+            </div>
+            <div
+              className="txtBarBdyTxt"
+              onClick={[Function]}
+            >
+              <p>
+                Add some body text
+              </p>
+            </div>
+          </div>
+          <div
+            className="txtBarColFnt"
+          >
+            <div>
+              Select font color
+            </div>
+            <Connect(ColorPicker)
+              handleGetColor={[Function]}
+            >
+              <div
+                className="colorPickerContainer"
+              >
+                <ul
+                  className="colorPickerlist"
+                  onClick={[Function]}
+                >
+                  <li
+                    data-color="#F56651"
+                    style={
+                      Object {
+                        "backgroundColor": "#F56651",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#7AE9C9"
+                    style={
+                      Object {
+                        "backgroundColor": "#7AE9C9",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#606A92"
+                    style={
+                      Object {
+                        "backgroundColor": "#606A92",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#FDCD47"
+                    style={
+                      Object {
+                        "backgroundColor": "#FDCD47",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#464849"
+                    style={
+                      Object {
+                        "backgroundColor": "#464849",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#D7D1D5"
+                    style={
+                      Object {
+                        "backgroundColor": "#D7D1D5",
+                      }
+                    }
+                  />
+                  <li
+                    data-color="#fff"
+                    style={
+                      Object {
+                        "backgroundColor": "#fff",
+                      }
+                    }
+                  />
+                </ul>
+                <div
+                  className="colorPickInput"
+                >
+                  <div>
+                    Enter Hex Color
+                  </div>
+                  <div
+                    className="contColPkHex"
+                  >
+                    <div
+                      className="colorPickHex"
+                      onClick={[Function]}
+                    >
+                      <p>
+                        #
+                      </p>
+                    </div>
+                    <input
+                      onChange={[Function]}
+                      required={true}
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    style={
+                      Object {
+                        "color": "red",
+                        "display": "none",
+                      }
+                    }
+                  >
+                    Please enter a color
+                  </div>
+                </div>
+              </div>
+            </Connect(ColorPicker)>
+          </div>
+          <div>
+            <Connect(FontSizeSelector)
+              handleGetFontSize={[Function]}
+            >
+              <div>
+                <div>
+                  Font Size
+                </div>
+                <div
+                  className="ftSelConIn"
+                  onClick={[Function]}
+                >
+                  <input
+                    onChange={[Function]}
+                    onKeyUp={[Function]}
+                    type="number"
+                    value="14"
+                  />
+                  <div
+                    className="ftSelConInIm"
+                  >
+                    <img
+                      alt=""
+                      src="arrowDown.svg"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="ftSelCtnDrpDwn"
+                  style={
+                    Object {
+                      "display": "none",
+                    }
+                  }
+                >
+                  <ul
+                    onClick={[Function]}
+                  >
+                    <li
+                      data-size="6"
+                    >
+                      6
+                    </li>
+                    <li
+                      data-size="8"
+                    >
+                      8
+                    </li>
+                    <li
+                      data-size="10"
+                    >
+                      10
+                    </li>
+                    <li
+                      data-size="12"
+                    >
+                      12
+                    </li>
+                    <li
+                      data-size="14"
+                    >
+                      14
+                    </li>
+                    <li
+                      data-size="16"
+                    >
+                      16
+                    </li>
+                    <li
+                      data-size="18"
+                    >
+                      18
+                    </li>
+                    <li
+                      data-size="21"
+                    >
+                      21
+                    </li>
+                    <li
+                      data-size="24"
+                    >
+                      24
+                    </li>
+                    <li
+                      data-size="28"
+                    >
+                      28
+                    </li>
+                    <li
+                      data-size="32"
+                    >
+                      32
+                    </li>
+                    <li
+                      data-size="36"
+                    >
+                      36
+                    </li>
+                    <li
+                      data-size="42"
+                    >
+                      42
+                    </li>
+                    <li
+                      data-size="48"
+                    >
+                      48
+                    </li>
+                    <li
+                      data-size="56"
+                    >
+                      56
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Connect(FontSizeSelector)>
+          </div>
+        </div>
+      </Connect(TextBar)>
+      <div
+        className="sideBarCloseDesk"
+      >
+        <img
+          alt=""
+          className="sideBarClosebttn"
+          onClick={[Function]}
+          src="closeButton.svg"
+        />
+      </div>
+    </div>
+    <div
+      className="closeSideBar"
+      onClick={[Function]}
+    />
+  </div>
+</Connect(SideBar)>
+`;

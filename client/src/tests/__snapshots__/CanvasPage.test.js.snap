@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Canvas page <Canvas /> renders correctly 1`] = `
+<Connect(Canvas)>
+  <div
+    className="canvasContainer"
+  >
+    <div
+      className="canvasSection"
+    >
+      <canvas
+        className="canvas"
+        height={300}
+        style={
+          Object {
+            "backgroundColor": "#fff",
+          }
+        }
+        width={300}
+      />
+      <input
+        className="inputTextCanvas"
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        onTouchStart={[Function]}
+        size="8"
+        style={
+          Object {
+            "display": "none",
+            "fontSize": 14,
+          }
+        }
+        type="text"
+        value="TEXT HERE"
+      />
+    </div>
+    <div
+      className="recordBttn"
+    >
+      <img
+        alt=""
+        onClick={[Function]}
+        src="recordBttn.svg"
+        style={
+          Object {
+            "opacity": "",
+          }
+        }
+      />
+    </div>
+    <div
+      className="canvBttnOptions"
+    >
+      <div
+        className="resetBttnMobile"
+      >
+        <button
+          onClick={[Function]}
+          style={
+            Object {
+              "opacity": "0.6",
+            }
+          }
+        >
+          Reset
+        </button>
+      </div>
+      <a
+        className="mobileBttnEffect"
+        download="myImage.jpg"
+        id="download"
+        onClick={[Function]}
+      >
+        <div
+          id="spinAnimMob"
+        />
+        <p>
+          send
+        </p>
+      </a>
+      <a
+        className="mobileBttnEffect"
+        download="myImage.jpg"
+        id="download"
+        onClick={[Function]}
+      >
+        <div
+          id="spinAnimMob"
+        />
+        <p>
+          Download
+        </p>
+      </a>
+    </div>
+    <div
+      className="mobilBttn"
+    >
+      <img
+        alt=""
+        onClick={[Function]}
+        src="menu-bttn.svg"
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      <a
+        download="myImage.jpg"
+        href=""
+      />
+    </div>
+    <Connect(SendForm)
+      disableBttn={false}
+      display={false}
+      handleDisplay={[Function]}
+      handleSend={[Function]}
+      message=""
+    >
+      <form
+        className="overSendCanv"
+        onSubmit={[Function]}
+        style={
+          Object {
+            "opacity": "",
+            "visibility": "",
+          }
+        }
+      >
+        <div
+          className="sendCardConta"
+        >
+          <div
+            className="sendCardForm"
+          >
+            <div
+              className="sendCarFormTitle"
+            >
+              Send Canvas
+            </div>
+            <div
+              className="sendCanvFormBdy"
+            >
+              <div>
+                <input
+                  onChange={[Function]}
+                  placeholder="Email Address"
+                  type="email"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="ruleLnFrm"
+            />
+            <div
+              className="sendCvaFrmFttr"
+            >
+              <input
+                disabled={true}
+                style={
+                  Object {
+                    "cursor": "default",
+                    "opacity": "0.5",
+                  }
+                }
+                type="submit"
+                value="Send"
+              />
+              <a
+                onClick={[Function]}
+              >
+                Close
+              </a>
+              <div />
+            </div>
+          </div>
+        </div>
+      </form>
+    </Connect(SendForm)>
+  </div>
+</Connect(Canvas)>
+`;

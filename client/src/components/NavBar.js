@@ -54,7 +54,7 @@ class NavBar extends React.Component {
           <p>Sound Canvas</p>
         </div>
         <div className="navBarBttn">
-          <button onClick={this.isResetBttnPress}>
+          <button onClick={this.isResetBttnPress} id="resetBttn">
             <p>Reset</p>
           </button>
           <a

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Send fomr <SendForm /> renders correctly 1`] = `
+<Connect(SendForm)>
+  <form
+    className="overSendCanv"
+    onSubmit={[Function]}
+    style={
+      Object {
+        "opacity": "",
+        "visibility": "",
+      }
+    }
+  >
+    <div
+      className="sendCardConta"
+    >
+      <div
+        className="sendCardForm"
+      >
+        <div
+          className="sendCarFormTitle"
+        >
+          Send Canvas
+        </div>
+        <div
+          className="sendCanvFormBdy"
+        >
+          <div>
+            <input
+              onChange={[Function]}
+              placeholder="Email Address"
+              type="email"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          className="ruleLnFrm"
+        />
+        <div
+          className="sendCvaFrmFttr"
+        >
+          <input
+            disabled={true}
+            style={
+              Object {
+                "cursor": "default",
+                "opacity": "0.5",
+              }
+            }
+            type="submit"
+            value="Send"
+          />
+          <a
+            onClick={[Function]}
+          >
+            Close
+          </a>
+          <div />
+        </div>
+      </div>
+    </div>
+  </form>
+</Connect(SendForm)>
+`;
